@@ -11,7 +11,7 @@ class LoginView:
     def __init__(self):
         self.viewmodel = LoginViewModel()
 
-    def build(self, page: Page):
+    def build(self, page):
         self.page = page  # Guardar la referencia de la página
 
         self.registro_field = ft.TextField(
@@ -136,8 +136,8 @@ margin=ft.margin.only(top=-120)#mover el contenedor hacia arriba
         alert.open = False
         self.page.update()
 
-def main(page: Page):
-    view = LoginView()
-    view.build(page)
+#def main(page: Page):
+#    view = LoginView()
+#    view.build(page)
 
-ft.app(target=main)
+#ft.app(target=main)
