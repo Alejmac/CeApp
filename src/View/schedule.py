@@ -12,8 +12,8 @@ class ScheduleView:
         page.bgcolor = ft.colors.ORANGE_50
 
         # Establecer el tamaño de la ventana
-        page.window_width = 350
-        page.window_height = 700
+        #page.window_width = 350
+        #page.window_height = 700
 
         # Imágenes encima del contenedor superior
         top_icons = ft.Row(
@@ -119,8 +119,3 @@ class ScheduleView:
         page.add(ft.Row([left_container, central_container], alignment=ft.MainAxisAlignment.CENTER, spacing=0, expand=True))
         page.add(bottom_navigation)
 
-def main(page: Page):
-    view = ScheduleView()
-    view.build(page)
-
-ft.app(target=main)
