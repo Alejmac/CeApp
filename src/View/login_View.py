@@ -4,6 +4,7 @@ import os
 
 from ViewModel.login_ViewModel import LoginViewModel
 
+#ventana en la cual se  el usuario podra ingresar su registro y contraseña
 
 image_path = os.path.join(os.getcwd(), "Img", "entrada.jpg")
 
@@ -13,6 +14,7 @@ class LoginView:
 
     def build(self, page):
         self.page = page  # Guardar la referencia de la página
+        
 
         self.registro_field = ft.TextField(
             width=280,
@@ -117,7 +119,7 @@ margin=ft.margin.only(top=-120)#mover el contenedor hacia arriba
                 title=ft.Text("Login Exitoso"),
                 content=ft.Text("Bienvenido al sistema del CETI"),
                 actions=[
-                    ft.TextButton("OK", on_click=lambda e: self.close_alert(alert))
+                    ft.TextButton("OK", on_click=lambda e: self.close_alert(alert,success=True))
                 ]
             )
         else:
@@ -125,15 +127,25 @@ margin=ft.margin.only(top=-120)#mover el contenedor hacia arriba
                 title=ft.Text("Login Fallido"),
                 content=ft.Text("Usuario o contraseña incorrectos"),
                 actions=[
-                    ft.TextButton("OK", on_click=lambda e: self.close_alert(alert))
+                    ft.TextButton("OK", on_click=lambda e: self.close_alert(alert,success=False))
                 ]
             )
         self.page.overlay.append(alert)
         alert.open = True
         self.page.update()
 
-    def close_alert(self, alert):
+    def close_alert(self, alert, success):
         alert.open = False
+        self.page.update()
+        if success:
+            self.load_schedule_view()
+
+     # se manda a llamar a la ventana de horario
+    def load_schedule_view(self):
+        from View.schedule import ScheduleView
+        schedule_view = ScheduleView()
+        self.page.clean()  # Limpiar la página actual
+        schedule_view.build(self.page)  # Construir la vista de horarios
         self.page.update()
 
 #def main(page: Page):

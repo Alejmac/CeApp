@@ -1,12 +1,12 @@
 from flet import app, Page
-from View.login_View import LoginView
+from View.first import FirstView
 
 class Main:
     def __init__(self):
-        self.login_view = LoginView()
+        self.first_view = FirstView()
 
     def run(self, page: Page):
-        self.login_view.build(page)
+        self.first_view.build(page)
 
 # Ejemplo de uso
 def main(page: Page):
