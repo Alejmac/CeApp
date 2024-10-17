@@ -1,5 +1,7 @@
 import flet as ft
 from flet import Page, Column, Text, ListTile, ExpansionTile, Container
+from nav_bar_View import create_nav_bar  # Importar la función create_nav_bar
+from nav_top_View import create_nav_top  # Importar la función create_nav_top
 
 def main(page: ft.Page):
     page.spacing = 0
@@ -60,7 +62,7 @@ def main(page: ft.Page):
     scrollable_column = Column(
         controls=expansion_tiles,
         spacing=10,
-        height=400,  # Ajustar la altura según sea necesario
+        height=500,  # Ajustar la altura según sea necesario
         width=300,  # Ajustar el ancho según sea necesario
         scroll=ft.ScrollMode.ALWAYS,
         on_scroll=on_column_scroll,
@@ -73,14 +75,34 @@ def main(page: ft.Page):
         alignment=ft.alignment.center,
         border=ft.border.all(1, ft.colors.BLACK),  # Margen negro
         border_radius=10,  # Bordes redondeados
-        margin=ft.margin.all(20)  # Margen de 20 px en cada lado
+        margin=ft.margin.only(top=10)  # Margen superior de 50 px
     )
 
     # Ajustar el tamaño de la ventana a la resolución del iPhone 15 con margen
-    page.window_width = 390 - 40  # Ancho del iPhone 15 menos el margen
-    page.window_height = 844 - 40  # Altura del iPhone 15 menos el margen
+    page.window_width = 390  # Ancho del iPhone 15
+    page.window_height = 844  # Altura del iPhone 15
 
-    # Agregar el contenedor a la página
-    page.add(container)
+    # Crear la barra de navegación superior
+    nav_top = create_nav_top(page)
+
+    # Crear la barra de navegación inferior
+    nav_bar = create_nav_bar(page)
+
+    # Crear un contenedor principal que ocupe todo el espacio disponible
+    main_container = Container(
+        content=ft.Column(
+            controls=[
+                nav_top,  # Agregar la barra de navegación superior
+                container,
+                ft.Container(content=nav_bar, alignment=ft.alignment.bottom_center, margin=ft.margin.all(0), padding=ft.padding.all(0))
+            ],
+            expand=True,
+            alignment=ft.MainAxisAlignment.SPACE_BETWEEN
+        ),
+        expand=True
+    )
+
+    # Agregar el contenedor principal a la página
+    page.add(main_container)
 
 ft.app(target=main)
