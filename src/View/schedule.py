@@ -1,11 +1,11 @@
 import flet as ft
-from flet import *
-from nav_top_View import create_nav_top  # Importar la función create_nav_top
-from nav_bar_View import create_nav_bar  # Importar la función create_nav_bar
+from flet import Page
+from .nav_bar_View import create_nav_bar  # Importar la función create_nav_bar
+from .nav_top_View import create_nav_top  # Importar la función create_nav_top
 
 class ScheduleView:
-    def __init__(self):
-        pass
+    def __init__(self, nav_bar_view_model):
+        self.nav_bar_view_model = nav_bar_view_model
 
     def build(self, page: Page):
         page.title = "Horario del Alumno"
@@ -14,8 +14,8 @@ class ScheduleView:
         page.bgcolor = ft.colors.ORANGE_50
 
         # Establecer el tamaño de la ventana
-        page.window_width = 390
-        page.window_height = 844
+        page.window.width = 390  # Actualizado
+        page.window.height = 844  # Actualizado
 
         # Crear la barra de navegación superior
         nav_top = create_nav_top(page)
@@ -27,7 +27,7 @@ class ScheduleView:
                 ft.Image(src="img/perfil2.png", width=32, height=32)
             ],
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
-            width=page.window_width
+            width=page.window.width
         )
 
         # Contenedor superior con 6 divisiones horizontales
@@ -101,35 +101,14 @@ class ScheduleView:
             border_radius=ft.border_radius.only(top_left=10, top_right=10, bottom_left=10, bottom_right=10)  # Bordes redondeados solo en las esquinas
         )
 
-        # Barra de navegación inferior
-        bottom_navigation = ft.Container(
-            content=ft.Row(
-                controls=[
-                    ft.IconButton(icon=ft.icons.HOME, on_click=lambda e: print("Home")),
-                    ft.IconButton(icon=ft.icons.SCHEDULE, on_click=lambda e: print("Schedule")),
-                    ft.IconButton(icon=ft.icons.SETTINGS, on_click=lambda e: print("Settings"))
-                ],
-                alignment=ft.MainAxisAlignment.SPACE_AROUND
-            ),
-            width=page.window_width,
-            height=50,
-            bgcolor=ft.colors.GREY_200,  # Parte superior
-            margin=ft.margin.only(bottom=10, left=0, right=0),  # Quitar margen derecho
-            border_radius=ft.border_radius.all(40)  # Bordes redondeados con radio de 40 píxeles
-        )
-
-        # Crear la barra de navegación inferior
-        nav_bar = create_nav_bar(page)
-
         # Crear un contenedor principal que ocupe todo el espacio disponible
-        main_container = Container(
+        main_container = ft.Container(
             content=ft.Column(
                 controls=[
                     nav_top,  # Agregar la barra de navegación superior
                     top_icons,
                     ft.Container(content=top_container, alignment=ft.alignment.center),  # Centrar el contenedor superior
-                    ft.Row([left_container, central_container], alignment=ft.MainAxisAlignment.CENTER, spacing=0, expand=True),
-                    ft.Container(content=nav_bar, alignment=ft.alignment.bottom_center, margin=ft.margin.all(0), padding=ft.padding.all(0))
+                    ft.Row([left_container, central_container], alignment=ft.MainAxisAlignment.CENTER, spacing=0, expand=True)
                 ],
                 expand=True,
                 alignment=ft.MainAxisAlignment.SPACE_BETWEEN
@@ -139,10 +118,3 @@ class ScheduleView:
 
         # Agregar el contenedor principal a la página
         page.add(main_container)
-
-# Crear una instancia de ScheduleView y construir la página
-def main(page: Page):
-    view = ScheduleView()
-    view.build(page)
-
-ft.app(target=main)

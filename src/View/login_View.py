@@ -3,18 +3,16 @@ from flet import *
 import os 
 
 from ViewModel.login_ViewModel import LoginViewModel
-
-#ventana en la cual se  el usuario podra ingresar su registro y contraseña
+# Ventana en la cual el usuario podrá ingresar su registro y contraseña
 
 image_path = os.path.join(os.getcwd(), "Img", "entrada.jpg")
 
 class LoginView:
-    def __init__(self):
-        self.viewmodel = LoginViewModel()
+    def __init__(self, main_instance):
+        self.viewmodel = LoginViewModel(main_instance)
 
     def build(self, page):
         self.page = page  # Guardar la referencia de la página
-        
 
         self.registro_field = ft.TextField(
             width=280,
@@ -53,7 +51,7 @@ class LoginView:
             ft.Column([
                 ft.Container(
                     ft.Text(
-                        "Iniciar Sesion",
+                        "Iniciar Sesión",
                         width=320,
                         size=30,
                         text_align='center',
@@ -101,8 +99,8 @@ class LoginView:
                 color=ft.colors.BLACK12,
                 offset=ft.Offset(0, 5)
             ),
-margin=ft.margin.only(top=-120)#mover el contenedor hacia arriba
-)
+            margin=ft.margin.only(top=-120)  # Mover el contenedor hacia arriba
+        )
 
         page.bgcolor = ft.colors.ORANGE_50
         page.vertical_alignment = 'start'
@@ -119,15 +117,18 @@ margin=ft.margin.only(top=-120)#mover el contenedor hacia arriba
                 title=ft.Text("Login Exitoso"),
                 content=ft.Text("Bienvenido al sistema del CETI"),
                 actions=[
-                    ft.TextButton("OK", on_click=lambda e: self.close_alert(alert,success=True))
+                    ft.TextButton("OK", on_click=lambda e: self.close_alert(alert, success=True))
                 ]
             )
+            self.viewmodel.obtener_horario_servicio(registro, password)
+            self.viewmodel.obtener_calificaciones_servicio(registro, password)
+            self.viewmodel.obtener_data_servicio(registro, password)
         else:
             alert = ft.AlertDialog(
                 title=ft.Text("Login Fallido"),
                 content=ft.Text("Usuario o contraseña incorrectos"),
                 actions=[
-                    ft.TextButton("OK", on_click=lambda e: self.close_alert(alert,success=False))
+                    ft.TextButton("OK", on_click=lambda e: self.close_alert(alert, success=False))
                 ]
             )
         self.page.overlay.append(alert)
@@ -138,18 +139,13 @@ margin=ft.margin.only(top=-120)#mover el contenedor hacia arriba
         alert.open = False
         self.page.update()
         if success:
-            self.load_schedule_view()
+            self.viewmodel.crear_ventana(True)  # Llamar a crear_ventana con True
 
-     # se manda a llamar a la ventana de horario
-    def load_schedule_view(self):
-        from View.schedule import ScheduleView
-        schedule_view = ScheduleView()
-        self.page.clean()  # Limpiar la página actual
-        schedule_view.build(self.page)  # Construir la vista de horarios
-        self.page.update()
+    # Se manda a llamar a la ventana de horario
+   # def load_schedule_view(self):
+      #  from View.schedule import ScheduleView
+       # schedule_view = ScheduleView()
+       # self.page.clean()  # Limpiar la página actual
+       # schedule_view.build(self.page)  # Construir la vista de horarios
+       # self.page.update()
 
-#def main(page: Page):
-#    view = LoginView()
-#    view.build(page)
-
-#ft.app(target=main)
