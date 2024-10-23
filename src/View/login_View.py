@@ -4,12 +4,15 @@ import os
 
 from ViewModel.login_ViewModel import LoginViewModel
 # Ventana en la cual el usuario podrá ingresar su registro y contraseña
+from View.teachers_View import TeachersView
 
 image_path = os.path.join(os.getcwd(), "Img", "entrada.jpg")
 
 class LoginView:
     def __init__(self, main_instance):
-        self.viewmodel = LoginViewModel(main_instance)
+        self.main_instance = main_instance
+        self.page = None  # Inicializar el atributo page
+        self.controls = []
 
     def build(self, page):
         self.page = page  # Guardar la referencia de la página
@@ -120,6 +123,9 @@ class LoginView:
                     ft.TextButton("OK", on_click=lambda e: self.close_alert(alert, success=True))
                 ]
             )
+            self.page.dialog = alert
+            alert.open = True
+
             self.viewmodel.obtener_horario_servicio(registro, password)
             self.viewmodel.obtener_calificaciones_servicio(registro, password)
             self.viewmodel.obtener_data_servicio(registro, password)
@@ -139,13 +145,7 @@ class LoginView:
         alert.open = False
         self.page.update()
         if success:
-            self.viewmodel.crear_ventana(True)  # Llamar a crear_ventana con True
+            # Llamar al método en Main para mostrar la ventana de TeachersView
+            self.main_instance.show_teachers_view()
 
-    # Se manda a llamar a la ventana de horario
-   # def load_schedule_view(self):
-      #  from View.schedule import ScheduleView
-       # schedule_view = ScheduleView()
-       # self.page.clean()  # Limpiar la página actual
-       # schedule_view.build(self.page)  # Construir la vista de horarios
-       # self.page.update()
 

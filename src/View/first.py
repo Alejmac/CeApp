@@ -6,9 +6,11 @@ import os
 image_path = os.path.join(os.getcwd(), "Img", "entrada.jpg")
 
 class FirstView:
-    def __init__(self):
-        pass
-
+    def __init__(self, main_instance):
+        self.main_instance = main_instance
+        self.page = None  # Inicializar el atributo page
+        self.controls = []
+        
     def build(self, page: Page):
         self.page = page  # Guardar la referencia de la página
         page.title = "Explora la Nueva App"

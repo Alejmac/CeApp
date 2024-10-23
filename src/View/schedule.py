@@ -4,10 +4,13 @@ from .nav_bar_View import create_nav_bar  # Importar la función create_nav_bar
 from .nav_top_View import create_nav_top  # Importar la función create_nav_top
 
 class ScheduleView:
-    def __init__(self, nav_bar_view_model):
-        self.nav_bar_view_model = nav_bar_view_model
+    def __init__(self, main_instance):
+        self.main_instance = main_instance
+        self.page = None  # Inicializar el atributo page
+        self.controls = []
 
     def build(self, page: Page):
+        self.page = page
         page.title = "Horario del Alumno"
         page.vertical_alignment = "start"
         page.horizontal_alignment = "center"
@@ -118,3 +121,4 @@ class ScheduleView:
 
         # Agregar el contenedor principal a la página
         page.add(main_container)
+        self.controls = [main_container]  # Guardar los controles para manejar la visibilidad

@@ -5,8 +5,9 @@ from Services.student_service import obtener_data  # Importar la función obtene
 
 class LoginViewModel:
     def __init__(self, main_instance):
-        self.estado = False  # Estado inicial
-        self.main_instance = main_instance  # Referencia a la instancia de Main
+        self.main_instance = main_instance
+        self.page = None  # Inicializar el atributo page
+        self.controls = [] # Referencia a la instancia de Main
 
     def login(self, registro, password):
         print(f"Intentando iniciar sesión con el registro {registro}...")
