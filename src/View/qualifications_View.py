@@ -1,15 +1,17 @@
 import flet as ft
 from flet import Page, Column, Text, ExpansionTile, Container
-from View.nav_top_View import create_nav_top  # Importar la función create_nav_top
+from View.nav_top_View import create_nav_top
+from View.nav_bar_View import create_nav_bar  # Importar la función create_nav_bar
 from ViewModel.nav_bar_ViewModel import NavBarViewModel
 
 class QualificationsView:
     def __init__(self, main_instance):
-        self.main_instance = main_instance
+        self.main_instance = main_instance  # Almacenar la instancia principal
         self.page = None  # Inicializar el atributo page
         self.controls = []
 
     def build(self, page: Page):
+        self.page = page
         page.spacing = 0
         page.padding = 0
         page.bgcolor = ft.colors.WHITE
@@ -20,6 +22,11 @@ class QualificationsView:
 
         # Crear la barra de navegación superior
         nav_top = create_nav_top(page)
+        nav_top.width = page.window.width  # Establecer el ancho de nav_top
+
+        # Crear la barra de navegación inferior
+        nav_bar = create_nav_bar(page)
+        nav_bar.width = page.window.width  # Establecer el ancho de nav_bar
 
         # Definir calificaciones (esto es solo un ejemplo, ajusta según tu lógica)
         calificaciones = {
@@ -66,7 +73,8 @@ class QualificationsView:
             content=ft.Column(
                 controls=[
                     nav_top,  # Agregar la barra de navegación superior
-                    expansion_column  # Agregar los ExpansionTiles
+                    expansion_column,  # Agregar los ExpansionTiles
+                    nav_bar  # Agregar la barra de navegación inferior
                 ],
                 expand=True,
                 alignment=ft.MainAxisAlignment.SPACE_BETWEEN
@@ -78,3 +86,12 @@ class QualificationsView:
 
         # Agregar el contenedor principal a la página
         page.add(main_container)
+        self.controls = [main_container]  # Guardar los controles para manejar la visibilidad
+
+# Ejemplo de uso
+def main(page: Page):
+    view = QualificationsView(None)  # Pasar None como instancia principal para pruebas
+    view.build(page)
+
+if __name__ == "__main__":
+    ft.app(target=main)
