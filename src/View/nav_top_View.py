@@ -5,38 +5,23 @@ def create_nav_top(page: ft.Page):
     def on_profile_click(e):
         print("se presionó")
 
-    # Crear el botón de perfil de usuario
-    profile_button = ft.IconButton(
-        icon=ft.icons.PERSON,
-        on_click=on_profile_click
+    # Crear el AppBar
+    app_bar = ft.AppBar(
+        
+        leading_width=40,
+        title=ft.Text("CeApp", style="headlineMedium", color=ft.colors.BLACK),
+        center_title=False,
+        bgcolor=ft.colors.GREY_500,
+        actions=[
+            ft.IconButton(
+                icon=ft.icons.PERM_IDENTITY_OUTLINED,
+                on_click=on_profile_click
+            )
+        ]
     )
 
-    # Crear el texto "CeApp"
-    ceapp_text = ft.Text(
-        value="CeApp",
-        style="headlineMedium",  # Estilo de letra bonita
-        color=ft.colors.BLACK
-    )
-
-    # Crear el contenedor principal
-    nav_container = ft.Container(
-        content=ft.Row(
-            controls=[
-                ceapp_text,
-                ft.Container(expand=True),  # Contenedor expandible para empujar el botón a la derecha
-                profile_button
-            ],
-            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
-            vertical_alignment=ft.CrossAxisAlignment.CENTER
-        ),
-        width=page.window_width,  # Hacer que el contenedor se adapte al ancho de la ventana
-        height=90,  # Altura fija
-        padding=ft.padding.all(10),
-        bgcolor=ft.colors.GREY_200,
-        border_radius=ft.border_radius.all(10)
-    )
-
-    return nav_container
+    # Asignar el AppBar a la página
+    page.appbar = app_bar
 
 # Exportar la función para que pueda ser importada en otros archivos
 __all__ = ["create_nav_top"]

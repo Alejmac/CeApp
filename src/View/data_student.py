@@ -1,8 +1,8 @@
 import flet as ft
-from flet import Page
-
+from flet import Page, Column, Text, ExpansionTile, Container
+from View.nav_top_View import create_nav_top
 from View.nav_bar_View import create_nav_bar  # Importar la función create_nav_bar
-from View.nav_top_View import create_nav_top  # Importar la función create_nav_top
+from ViewModel.nav_bar_ViewModel import NavBarViewModel
 
 class DataStudentView:
     def __init__(self, main_instance):
@@ -11,12 +11,9 @@ class DataStudentView:
         self.controls = []
 
     def build(self, page: Page):
+        self.page = page
         page.spacing = 0
         page.padding = 0
-        self.page = page
-        page.title = "Datos del Alumno"
-        page.vertical_alignment = "start"
-        page.horizontal_alignment = "center"
         page.bgcolor = ft.colors.WHITE
 
         # Ajustar el tamaño de la ventana a la resolución del iPhone 15
@@ -24,64 +21,73 @@ class DataStudentView:
         page.window_height = 844
 
         # Crear la barra de navegación superior
-        nav_top = create_nav_top(page)
+        create_nav_top(page)
 
         # Crear la barra de navegación inferior
         nav_bar = create_nav_bar(page)
+        nav_bar.width = page.window_width  # Establecer el ancho de nav_bar
 
-        # Crear el ícono de newspaper_outline
-        user_icon = ft.Icon(name=ft.icons.PERM_IDENTITY_OUTLINED, size=70, color=ft.colors.BLACK)
+        # Definir datos del estudiante (esto es solo un ejemplo, ajusta según tu lógica)
+        datos_estudiante = {
+            "Nombre": "Juan Pérez",
+            "Matrícula": "12345678",
+            "Carrera": "Ingeniería en Sistemas",
+            "Semestre": "8vo"
+        }
 
-        # Crear la lista de CupertinoListTile
-        cupertino_list = ft.ListView(
-            controls=[
-                ft.Container(
-                    content=ft.CupertinoListTile(
-                        trailing=ft.Icon(name=ft.icons.NEWSPAPER_OUTLINED, color=ft.colors.BLACK),
-                        title=ft.Text(f"Clave {i+1}", color=ft.colors.BLACK),
-                        subtitle=ft.Text(f"Valor {i+1}", color=ft.colors.BLACK)
-                    ),
-                    margin=ft.margin.all(2),
-                    border_radius=5,
-                    border=ft.border.all(1, ft.colors.BLACK)  # Margen delgado alrededor de cada CupertinoListTile
-                ) for i in range(20)
-            ],
+        # Crear los ExpansionTiles para cada dato del estudiante
+        expansion_tiles = [
+            ExpansionTile(
+                title=Text(f"{k}", size=14, weight="bold", color=ft.colors.BLACK),
+                subtitle=Text("Información adicional"),
+                affinity=ft.TileAffinity.PLATFORM,
+                maintain_state=True,
+                collapsed_text_color=ft.colors.RED,
+                text_color=ft.colors.RED,
+                controls=[
+                    Container(
+                        content=Column(
+                            controls=[
+                                Text(f"{k}: {v}", size=12, weight="bold", color=ft.colors.BLACK)
+                                for k, v in datos_estudiante.items()
+                            ],
+                            alignment=ft.MainAxisAlignment.SPACE_EVENLY,
+                            spacing=10
+                        ),
+                        margin=ft.margin.all(10)
+                    )
+                ],
+                on_change=lambda e: print(f"ExpansionTile {k} {'expanded' if e.data=='true' else 'collapsed'}")
+            ) for k, v in datos_estudiante.items()
+        ]
+
+        # Crear un Column con los ExpansionTiles
+        expansion_column = Column(
+            controls=expansion_tiles,
+            spacing=10,
             expand=True
         )
 
-        # Crear el contenedor con la lista y el scroll
-        scroll_container = ft.Container(
-            content=cupertino_list,
-            margin=ft.margin.all(5),  # Agregar margen alrededor de la lista
-            #border=ft.border.all(1, ft.colors.BLACK),  # Agregar borde negro
+        # Crear un contenedor con margen superior de 15 px
+        container = Container(
+            content=expansion_column,
+            margin=ft.margin.only(top=15),  # Margen superior de 15 px
             expand=True
         )
 
-        # Crear el contenedor principal
-        main_container = ft.Container(
+        # Crear un contenedor principal que ocupe todo el espacio disponible
+        main_container = Container(
             content=ft.Column(
                 controls=[
-                    nav_top,  # Agregar la barra de navegación superior
-                    ft.Container(
-                        content=ft.Column(
-                            controls=[
-                                user_icon,
-                                scroll_container
-                            ],
-                            alignment=ft.MainAxisAlignment.CENTER,
-                            horizontal_alignment=ft.CrossAxisAlignment.CENTER
-                        ),
-                        bgcolor=ft.colors.WHITE,
-                        padding=5,
-                        border_radius=10,
-                        expand=True
-                    ),
+                    container,  # Agregar el contenedor con margen superior
                     nav_bar  # Agregar la barra de navegación inferior
                 ],
                 expand=True,
                 alignment=ft.MainAxisAlignment.SPACE_BETWEEN
             ),
-            expand=True
+            expand=True,
+            margin=ft.margin.all(0),  # Sin margen alrededor del contenedor principal
+            padding=ft.padding.all(0)  # Sin padding alrededor del contenedor principal
         )
 
         # Agregar el contenedor principal a la página

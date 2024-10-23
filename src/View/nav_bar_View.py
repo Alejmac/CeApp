@@ -1,31 +1,32 @@
 import flet as ft
-from flet import Container, Row, IconButton, icons
+from flet import NavigationBar, NavigationDestination, icons
 
 def create_nav_bar(page):
-    nav_bar = Container(
-        content=Row(
-            controls=[
-                IconButton(
-                    icon=icons.HOME,
-                    on_click=lambda e: print("Home clicked")
-                ),
-                IconButton(
-                    icon=icons.SCHEDULE,
-                    on_click=lambda e: print("Schedule clicked")
-                ),
-                IconButton(
-                    icon=icons.GRADE,
-                    on_click=lambda e: print("Qualifications clicked")
-                ),
-                IconButton(
-                    icon=icons.PEOPLE,
-                    on_click=lambda e: print("Teachers clicked")
-                ),
-            ],
-            alignment=ft.MainAxisAlignment.SPACE_AROUND
-        ),
-        bgcolor=ft.colors.GREY_200,
-        padding=10
+    nav_bar = NavigationBar(
+        destinations=[
+            NavigationDestination(
+                icon=icons.SCHEDULE,
+                label="Schedule"
+            ),
+            NavigationDestination(
+                icon=icons.CALENDAR_VIEW_MONTH,
+                label="Calendar"
+            ),
+            NavigationDestination(
+                icon=icons.CALENDAR_VIEW_DAY,
+                label="Day View"
+            )
+        ],
+        on_change=lambda e: handle_navigation(e, page)
     )
 
     return nav_bar
+
+def handle_navigation(e, page):
+    selected_index = e.control.selected_index
+    if selected_index == 0:
+        print("Schedule clicked")
+    elif selected_index == 1:
+        print("Calendar clicked")
+    elif selected_index == 2:
+        print("Day View clicked")

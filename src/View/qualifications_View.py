@@ -21,8 +21,7 @@ class QualificationsView:
         page.window.height = 844
 
         # Crear la barra de navegación superior
-        nav_top = create_nav_top(page)
-        nav_top.width = page.window.width  # Establecer el ancho de nav_top
+        create_nav_top(page)
 
         # Crear la barra de navegación inferior
         nav_bar = create_nav_bar(page)
@@ -68,12 +67,18 @@ class QualificationsView:
             expand=True
         )
 
+        # Crear un contenedor con margen superior de 10 px
+        container = Container(
+            content=expansion_column,
+            margin=ft.margin.only(top=10),  # Margen superior de 10 px
+            expand=True
+        )
+
         # Crear un contenedor principal que ocupe todo el espacio disponible
         main_container = Container(
             content=ft.Column(
                 controls=[
-                    nav_top,  # Agregar la barra de navegación superior
-                    expansion_column,  # Agregar los ExpansionTiles
+                    container,  # Agregar el contenedor con margen superior
                     nav_bar  # Agregar la barra de navegación inferior
                 ],
                 expand=True,

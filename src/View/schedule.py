@@ -1,7 +1,8 @@
 import flet as ft
 from flet import Page
-from .nav_bar_View import create_nav_bar  # Importar la función create_nav_bar
-from .nav_top_View import create_nav_top  # Importar la función create_nav_top
+
+from View.nav_top_View import create_nav_top
+from View.nav_bar_View import create_nav_bar 
 
 class ScheduleView:
     def __init__(self, main_instance):
@@ -122,3 +123,11 @@ class ScheduleView:
         # Agregar el contenedor principal a la página
         page.add(main_container)
         self.controls = [main_container]  # Guardar los controles para manejar la visibilidad
+
+        # Ejemplo de uso
+def main(page: Page):
+    view = ScheduleView(None)  # Pasar None como instancia principal para pruebas
+    view.build(page)
+
+if __name__ == "__main__":
+    ft.app(target=main)
