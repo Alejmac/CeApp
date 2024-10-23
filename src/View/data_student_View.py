@@ -1,8 +1,9 @@
 import flet as ft
-from flet import Page, Column, Text, ExpansionTile, Container
+from flet import Page, Column, Text, ExpansionTile, Container, ListView
 from View.nav_top_View import create_nav_top
 from View.nav_bar_View import create_nav_bar  # Importar la función create_nav_bar
-from ViewModel.nav_bar_ViewModel import NavBarViewModel
+from ViewModel.data_student_ViewModel import DataStudentViewModel  # Importar la clase DataStudentViewModel
+import os
 
 class DataStudentView:
     def __init__(self, main_instance):
@@ -17,61 +18,51 @@ class DataStudentView:
         page.bgcolor = ft.colors.WHITE
 
         # Ajustar el tamaño de la ventana a la resolución del iPhone 15
-        page.window_width = 390
-        page.window_height = 844
+        page.window.width = 390
+        page.window.height = 844
 
         # Crear la barra de navegación superior
         create_nav_top(page)
 
         # Crear la barra de navegación inferior
         nav_bar = create_nav_bar(page)
-        nav_bar.width = page.window_width  # Establecer el ancho de nav_bar
+        nav_bar.width = page.window.width  # Establecer el ancho de nav_bar
 
-        # Definir datos del estudiante (esto es solo un ejemplo, ajusta según tu lógica)
-        datos_estudiante = {
-            "Nombre": "Juan Pérez",
-            "Matrícula": "12345678",
-            "Carrera": "Ingeniería en Sistemas",
-            "Semestre": "8vo"
-        }
+         # Obtener los datos del estudiante desde el ViewModel
+        view_model = DataStudentViewModel()
+        datos_estudiante = view_model.get_data_as_dict()
+
 
         # Crear los ExpansionTiles para cada dato del estudiante
         expansion_tiles = [
             ExpansionTile(
                 title=Text(f"{k}", size=14, weight="bold", color=ft.colors.BLACK),
-                subtitle=Text("Información adicional"),
+                #subtitle=Text("Información adicional"),
                 affinity=ft.TileAffinity.PLATFORM,
                 maintain_state=True,
                 collapsed_text_color=ft.colors.RED,
                 text_color=ft.colors.RED,
                 controls=[
                     Container(
-                        content=Column(
-                            controls=[
-                                Text(f"{k}: {v}", size=12, weight="bold", color=ft.colors.BLACK)
-                                for k, v in datos_estudiante.items()
-                            ],
-                            alignment=ft.MainAxisAlignment.SPACE_EVENLY,
-                            spacing=10
-                        ),
-                        margin=ft.margin.all(10)
+                        content=Text(f"{v}", size=12, weight="bold", color=ft.colors.BLACK),
+                        margin=ft.margin.all(10),
+                        padding=ft.padding.all(15)  # Agregar padding de 15 px
                     )
                 ],
-                on_change=lambda e: print(f"ExpansionTile {k} {'expanded' if e.data=='true' else 'collapsed'}")
+                on_change=lambda e, k=k: print(f"ExpansionTile {k} {'expanded' if e.data=='true' else 'collapsed'}")
             ) for k, v in datos_estudiante.items()
         ]
 
-        # Crear un Column con los ExpansionTiles
-        expansion_column = Column(
+        # Crear un ListView con los ExpansionTiles
+        list_view = ListView(
             controls=expansion_tiles,
-            spacing=10,
             expand=True
         )
 
         # Crear un contenedor con margen superior de 15 px
         container = Container(
-            content=expansion_column,
-            margin=ft.margin.only(top=15),  # Margen superior de 15 px
+            content=list_view,
+            margin=ft.margin.only(top=50 , left=10 , right=10),  # Margen superior de 15 px
             expand=True
         )
 

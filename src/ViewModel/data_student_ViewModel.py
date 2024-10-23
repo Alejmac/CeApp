@@ -1,12 +1,12 @@
 import json
 import os
 
-class QualificationsViewModel:
+class DataStudentViewModel:
     _instance = None
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
-            cls._instance = super(QualificationsViewModel, cls).__new__(cls)
+            cls._instance = super(DataStudentViewModel, cls).__new__(cls)
             cls._instance.__initialized = False
         return cls._instance
 
@@ -14,7 +14,7 @@ class QualificationsViewModel:
         if self.__initialized:
             return
         self.__initialized = True
-        self.json_file_path = os.path.join(os.path.dirname(__file__), '..', 'Data', 'qualifications.json')
+        self.json_file_path = os.path.join(os.path.dirname(__file__), '..', 'Data', 'data_cleaned.json')
         self.data = self.load_data()
 
     def load_data(self):
@@ -31,9 +31,3 @@ class QualificationsViewModel:
 
     def get_data_as_dict(self):
         return self.data
-
-    def get_qualifications_by_collection(self):
-        collections = {}
-        for collection_name, items in self.data.items():
-            collections[collection_name] = items
-        return collections

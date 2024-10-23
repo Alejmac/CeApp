@@ -1,8 +1,9 @@
 import flet as ft
-from flet import Page, Column, Text, ExpansionTile, Container
+from flet import Page, Column, Text, ExpansionTile, Container, ListView
 from View.nav_top_View import create_nav_top
 from View.nav_bar_View import create_nav_bar  # Importar la función create_nav_bar
-from ViewModel.nav_bar_ViewModel import NavBarViewModel
+from ViewModel.quialifications_ViewModel import QualificationsViewModel  # Importar la clase QualificationsViewModel
+import os
 
 class QualificationsView:
     def __init__(self, main_instance):
@@ -27,18 +28,15 @@ class QualificationsView:
         nav_bar = create_nav_bar(page)
         nav_bar.width = page.window.width  # Establecer el ancho de nav_bar
 
-        # Definir calificaciones (esto es solo un ejemplo, ajusta según tu lógica)
-        calificaciones = {
-            "Matemáticas": {"Nota": "A", "Comentarios": "Excelente"},
-            "Ciencias": {"Nota": "B", "Comentarios": "Bueno"},
-            "Historia": {"Nota": "C", "Comentarios": "Suficiente"}
-        }
+        # Obtener los datos de las calificaciones desde el ViewModel
+        view_model = QualificationsViewModel()
+        datos_calificaciones = view_model.get_qualifications_by_collection()
 
-        # Crear los ExpansionTiles para cada materia
+        # Crear los ExpansionTiles para cada colección de calificaciones
         expansion_tiles = [
             ExpansionTile(
-                title=Text(f"{diccionario_nombre}", size=14, weight="bold", color=ft.colors.BLACK),
-                subtitle=Text("Información adicional"),
+                title=Text(f"{collection_name}", size=14, weight="bold", color=ft.colors.BLACK),
+                #subtitle=Text("Información adicional"),
                 affinity=ft.TileAffinity.PLATFORM,
                 maintain_state=True,
                 collapsed_text_color=ft.colors.RED,
@@ -48,29 +46,29 @@ class QualificationsView:
                         content=Column(
                             controls=[
                                 Text(f"{k}: {v}", size=12, weight="bold", color=ft.colors.BLACK)
-                                for k, v in valores.items()
+                                for k, v in items.items()
                             ],
                             alignment=ft.MainAxisAlignment.SPACE_EVENLY,
                             spacing=10
                         ),
-                        margin=ft.margin.all(10)
+                        margin=ft.margin.all(10),
+                        padding=ft.padding.all(15)  # Agregar padding de 15 px
                     )
                 ],
-                on_change=lambda e: print(f"ExpansionTile {diccionario_nombre} {'expanded' if e.data=='true' else 'collapsed'}")
-            ) for diccionario_nombre, valores in calificaciones.items()
+                on_change=lambda e, collection_name=collection_name: print(f"ExpansionTile {collection_name} {'expanded' if e.data=='true' else 'collapsed'}")
+            ) for collection_name, items in datos_calificaciones.items()
         ]
 
-        # Crear un Column con los ExpansionTiles
-        expansion_column = Column(
+        # Crear un ListView con los ExpansionTiles
+        list_view = ListView(
             controls=expansion_tiles,
-            spacing=10,
             expand=True
         )
 
-        # Crear un contenedor con margen superior de 10 px
+        # Crear un contenedor con margen superior de 15 px
         container = Container(
-            content=expansion_column,
-            margin=ft.margin.only(top=10),  # Margen superior de 10 px
+            content=list_view,
+            margin=ft.margin.only(top=15),  # Margen superior de 15 px
             expand=True
         )
 
