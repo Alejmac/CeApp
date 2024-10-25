@@ -11,7 +11,7 @@ from View.nav_bar_View import create_nav_bar
 from View.nav_top_View import create_nav_top
 from ViewModel.login_ViewModel import LoginViewModel
 from View.login_View import LoginView
-from View.data_student import DataStudentView
+from View.data_student_View import DataStudentView
 
 class Main:
     def __init__(self):
@@ -20,7 +20,10 @@ class Main:
 
         # Inicializar vistas como None, se crearán cuando sea necesario
         #self.login_view = LoginView(self)
-        self.login_view = DataStudentView(self)
+       # self.login_view = ScheduleView(self)
+        #self.login_view = DataStudentView(self)
+       # self.login_view = QualificationsView(self)
+        self.login_view = TeachersView(self)
         self.first_view = None
         self.schedule_view = None
         self.qualifications_view = None
