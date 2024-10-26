@@ -188,7 +188,7 @@ def get_schedule(sesion):
             # La primera celda de cada fila contiene la hora
             hora = clean_text(cells[0].text)
     
-            for dia, materia, materia_data in zip(dias_semana, cells[1::2], cells[2::2]):
+            for dia, materia, materia_data in zip(dias_semana, cells[1:], cells[1:]):
                 materia_text_list = materia.find_all('span', style='color:#1569C7; font-size:10px;')
                 materia_data_text_list = materia_data.find_all('span', style='color:#FFFFFF;')
     
@@ -238,10 +238,6 @@ def get_student(sesion):
     materias_table = soup.find('table', {'class': 'tabla'})
     if materias_table is None:
         raise ValueError("No se encontró ninguna tabla con los atributos especificados en el documento HTML.")
-
-    def clean_text(text):
-        """Función para limpiar texto eliminando caracteres no deseados."""
-        return text.replace('\xa0', '').replace('\n', '').strip() or "0"
 
     def no_contiene_correo(tag):
         return tag.name == 'td' and not tag.text.strip().startswith("Guía para activar el correo:")
@@ -311,20 +307,20 @@ password = '123asdzX'
 sesion = get_session(registro, password)
 
 materias_asignadas = get_tira_materias(sesion)
-save_file(materias_asignadas, 'class_strip.json')
+#save_file(materias_asignadas, 'class_strip.json')
 print(json.dumps(materias_asignadas, indent=2, ensure_ascii=False))
 
 calificaciones = get_grades(sesion)
-save_file(calificaciones, 'grades.json')
+#save_file(calificaciones, 'grades.json')
 print(json.dumps(calificaciones, indent=2, ensure_ascii=False))
 
 #####Tiene problemas con la extraccion de datos, no esta jalando nada por lo menos en mi horario del juevesni el viernes#####
 horario = get_schedule(sesion)
-save_file(horario, 'schedule.json') 
+#save_file(horario, 'schedule.json') 
 print(json.dumps(horario, indent=2, ensure_ascii=False))
 
 student = get_student(sesion)
-save_file(student, 'student.json')
+#save_file(student, 'student.json')
 print(json.dumps(student, indent=2, ensure_ascii=False))
 
 # Cerrar la sesión

@@ -46,7 +46,7 @@ def obtener_horario(registro, password):
             # La primera celda de cada fila contiene la hora
             hora = clean_text(cells[0].text)
     
-            for dia, materia, materia_data in zip(dias_semana, cells[1::2], cells[2::2]):
+            for dia, materia, materia_data in zip(dias_semana, cells[1:], cells[1:]):
                 materia_text_list = materia.find_all('span', style='color:#1569C7; font-size:10px;')
                 materia_data_text_list = materia_data.find_all('span', style='color:#FFFFFF;')
     
@@ -85,9 +85,10 @@ def obtener_horario(registro, password):
     os.makedirs(data_folder, exist_ok=True)
     json_file_path = os.path.join(data_folder, 'schedule.json')
 
-    with open(json_file_path, 'w', encoding='utf-8') as json_file:
-        json_file.write(horario_json)
+    # with open(json_file_path, 'w', encoding='utf-8') as json_file:
+    #     json_file.write(horario_json)
 
     print(f"Archivo JSON guardado en: {json_file_path}")
     return horario_final
 
+print(json.dumps(obtener_horario('21110191','123asdzX'), indent=2, ensure_ascii=False))
