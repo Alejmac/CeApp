@@ -57,10 +57,10 @@ def get_tira_materias(registro, password):
 
     return materias
 
-# Ejemplo de uso
-registro = '21110191'
-password = '123asdzX'
-materias_asignadas = get_tira_materias(registro, password)
+# # Ejemplo de uso
+# registro = '21110191'
+# password = '123asdzX'
+# materias_asignadas = get_tira_materias(registro, password)
 
-# Imprimir las materias asignadas en formato JSON
-print(json.dumps(materias_asignadas, indent=2, ensure_ascii=False))
+# # Imprimir las materias asignadas en formato JSON
+# print(json.dumps(materias_asignadas, indent=2, ensure_ascii=False))
