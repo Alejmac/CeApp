@@ -20,10 +20,10 @@ class Main:
 
         # Inicializar vistas como None, se crearán cuando sea necesario
         #self.login_view = LoginView(self)
-       # self.login_view = ScheduleView(self)
+        self.login_view = ScheduleView(self)
         #self.login_view = DataStudentView(self)
-       # self.login_view = QualificationsView(self)
-        self.login_view = TeachersView(self)
+        #self.login_view = QualificationsView(self)
+        #self.login_view = TeachersView(self)
         self.first_view = None
         self.schedule_view = None
         self.qualifications_view = None
