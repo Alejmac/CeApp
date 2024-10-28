@@ -1,11 +1,7 @@
-import json
 import os
+import json
 
-def cargar_calificaciones():
-    # Ruta al archivo JSON
-    json_file_path = os.path.join(os.getcwd(), 'Data', 'qualifications.json')
-
-    # Verificar si el archivo existe
+def cargar_calificaciones(json_file_path):
     if not os.path.exists(json_file_path):
         print(f"El archivo {json_file_path} no existe.")
         return None
@@ -23,7 +19,8 @@ def cargar_calificaciones():
 
 # Ejemplo de uso
 if __name__ == "__main__":
-    calificaciones = cargar_calificaciones()
+    json_file_path = os.path.join(os.path.dirname(__file__), '..', 'Data', 'qualifications.json')
+    calificaciones = cargar_calificaciones(json_file_path)
     if calificaciones:
         for clave, valores in calificaciones.items():
             print(f"Clave: {clave}")

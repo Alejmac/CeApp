@@ -1,5 +1,5 @@
 import flet as ft
-from flet import Page, Column, Text, Container, ElevatedButton, AlertDialog, TextButton, ScrollMode
+from flet import Page, Column, Text, Container, ScrollMode, IconButton, icons, AlertDialog, DataTable, DataColumn, DataRow, DataCell
 from View.nav_top_View import create_nav_top
 from View.nav_bar_View import create_nav_bar  # Importar la función create_nav_bar
 from ViewModel.quialifications_ViewModel import QualificationsViewModel  # Importar la clase QualificationsViewModel
@@ -30,51 +30,46 @@ class QualificationsView:
 
         # Obtener los datos de las calificaciones desde el ViewModel
         view_model = QualificationsViewModel()
-        datos_calificaciones = view_model.get_qualifications_by_collection()
+        materias = view_model.get_materias()
+        primer_parcial = view_model.get_primer_parcial()
+        segundo_parcial = view_model.get_segundo_parcial()
+        tercer_parcial = view_model.get_tercer_parcial()
+        schedule = view_model.get_schedule()
 
-        # Crear los botones para cada colección de calificaciones
-        buttons = [
-            ElevatedButton(
-                text=f"{collection_name}",
-                on_click=lambda e, collection_name=collection_name, items=items: self.show_alert_dialog(e, collection_name, items),
-                style=ft.ButtonStyle(
-                    bgcolor=ft.colors.WHITE,
-                    color=ft.colors.BLACK,
-                    padding=ft.padding.all(15),
-                    elevation=10
-                ),
-                width=150,  # Ancho del botón
-                height=50,  # Altura del botón
-            ) for collection_name, items in datos_calificaciones.items()
+        # Crear los contenedores para cada colección de calificaciones, omitiendo el último
+        collection_containers = [
+            self.create_collection_container(materias[i], primer_parcial[i], segundo_parcial[i], tercer_parcial[i], schedule.get(materias[i], {}), i)
+            for i in range(len(materias) - 1)
         ]
 
-        # Crear un Column con los botones
-        button_column = Column(
-            controls=buttons,
-            alignment=ft.MainAxisAlignment.CENTER,  # Centrar los botones verticalmente
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,  # Centrar los botones horizontalmente
-            scroll=ScrollMode.ALWAYS  # Habilitar el scroll
-        )
-
-        # Crear un Container para centrar el Column con los botones
-        button_container = Container(
-            content=button_column,
-            alignment=ft.alignment.center,  # Centrar el Container
-            margin=ft.margin.only(top=100, left=50)  # Separación de 100 px arriba y 90 px a la izquierda
+        # Crear un Column con los contenedores de las colecciones
+        collection_column = Column(
+            controls=collection_containers,
+            expand=True,
+            alignment=ft.MainAxisAlignment.START,  # Alinear los contenedores al inicio
+            scroll=ScrollMode.ALWAYS,  # Habilitar el scroll
+            spacing=0  # Sin separación entre los contenedores
         )
 
         # Crear un contenedor principal que ocupe todo el espacio disponible
         main_container = Container(
             content=ft.Column(
                 controls=[
-                    button_container,  # Agregar el Container con los botones
+                    Container(
+                        content=Text("Calificaciones", size=24, weight="bold", color=ft.colors.BLUE),  # Título principal con estilo
+                        alignment=ft.alignment.center,  # Centrar el título
+                        padding=ft.padding.all(10),  # Padding alrededor del título
+                        margin=ft.margin.only(bottom=30)  # Separación inferior de 30px
+                    ),
+                    collection_column,  # Agregar el Column con los contenedores de las colecciones
                     nav_bar  # Agregar la barra de navegación inferior
                 ],
                 expand=True,
-                alignment=ft.MainAxisAlignment.SPACE_BETWEEN
+                alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                spacing=0  # Sin separación entre los contenedores
             ),
             expand=True,
-            margin=ft.margin.all(0),  # Sin margen alrededor del contenedor principal
+            margin=ft.margin.only(top=20),  # Margen superior de 20px
             padding=ft.padding.all(0)  # Sin padding alrededor del contenedor principal
         )
 
@@ -82,58 +77,104 @@ class QualificationsView:
         page.add(main_container)
         self.controls = [main_container]  # Guardar los controles para manejar la visibilidad
 
-    def show_alert_dialog(self, e, collection_name, items):
-        # Crear el contenido del AlertDialog
-        content = Column(
-            controls=[
-                Text(f"{collection_name}", size=20, weight="bold", color=ft.colors.BLACK),
-                self.create_data_table(items)
-            ],
-            spacing=10,
-            scroll=ScrollMode.ALWAYS  # Habilitar el scroll dentro del AlertDialog
+    def create_collection_container(self, materia, primer_parcial, segundo_parcial, tercer_parcial, collection, index):
+        # Crear el subtítulo con el valor de la clave "materia"
+        subtitle = Text(f"{materia}", size=12, weight="bold", color=ft.colors.BLACK)  # Reducir el tamaño del texto
+
+        # Crear los subcontenedores con la información de los parciales
+        subcontainers = [
+            Container(
+                content=Text(f"{primer_parcial}", size=10),  # Mostrar solo el valor
+                padding=ft.padding.all(15),  # Hacer el triple de grande
+                bgcolor=ft.colors.WHITE,  # Fondo blanco
+                border=ft.border.all(1, ft.colors.BLACK),
+                alignment=ft.alignment.center,  # Centrar el contenido
+                border_radius=ft.border_radius.all(8)  # Redondeo de 8px
+            ),
+            Container(
+                content=Text(f"{segundo_parcial}", size=10),  # Mostrar solo el valor
+                padding=ft.padding.all(15),  # Hacer el triple de grande
+                bgcolor=ft.colors.WHITE,  # Fondo blanco
+                border=ft.border.all(1, ft.colors.BLACK),
+                alignment=ft.alignment.center,  # Centrar el contenido
+                border_radius=ft.border_radius.all(8)  # Redondeo de 8px
+            ),
+            Container(
+                content=Text(f"{tercer_parcial}", size=10),  # Mostrar solo el valor
+                padding=ft.padding.all(15),  # Hacer el triple de grande
+                bgcolor=ft.colors.WHITE,  # Fondo blanco
+                border=ft.border.all(1, ft.colors.BLACK),
+                alignment=ft.alignment.center,  # Centrar el contenido
+                border_radius=ft.border_radius.all(8)  # Redondeo de 8px
+            )
+        ]
+
+        # Crear el botón con el ícono
+        button = IconButton(
+            icon=icons.INFO,
+            on_click=lambda e: self.show_alert_dialog(collection)
         )
+
+        # Determinar el color de fondo del contenedor principal
+        bgcolor = ft.colors.GREY_200 if index % 2 == 0 else ft.colors.GREY
+
+        # Crear un contenedor para la colección
+        collection_container = Container(
+            content=ft.Column(
+                controls=[
+                    Container(
+                        content=ft.Row(
+                            controls=[subtitle, button],
+                            alignment=ft.MainAxisAlignment.SPACE_BETWEEN
+                        ),
+                        alignment=ft.alignment.center,  # Centrar el título de la materia
+                        border_radius=ft.border_radius.all(8)  # Redondeo de 8px
+                    ),
+                    ft.Row(  # Colocar los contenedores horizontalmente
+                        controls=subcontainers,
+                        alignment=ft.MainAxisAlignment.CENTER,  # Centrar los subcontenedores
+                        spacing=0  # Sin separación entre los subcontenedores
+                    )
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                spacing=0  # Sin separación entre los contenedores
+            ),
+            padding=ft.padding.all(0),  # Sin padding
+            border=ft.border.all(1, ft.colors.BLACK),
+            border_radius=ft.border_radius.all(8),  # Redondeo de 8px
+            margin=ft.margin.all(0),  # Sin margen
+            bgcolor=bgcolor  # Fondo gris claro o más oscuro
+        )
+
+        return collection_container
+
+    def show_alert_dialog(self, collection):
+        # Crear las columnas de la DataTable
+        columns = [DataColumn(Text(key)) for key in collection.keys()]
+
+        # Crear las filas de la DataTable
+        rows = [DataRow(cells=[DataCell(Text(str(value))) for value in collection.values()])]
+
+        # Crear la DataTable
+        data_table = DataTable(columns=columns, rows=rows)
 
         # Crear el AlertDialog
-        alert_dialog = AlertDialog(
-            title=Text(f"Información de {collection_name}"),
-            content=content,
+        dialog = AlertDialog(
+            title=Text("Detalles de la Colección"),
+            content=data_table,
             actions=[
-                TextButton("Cerrar", on_click=lambda e: self.page.close(alert_dialog))
-            ],
-            actions_alignment=ft.MainAxisAlignment.END,
-            on_dismiss=lambda e: print("AlertDialog cerrado")
+                ft.TextButton("Cerrar", on_click=lambda e: self.close_dialog(dialog))
+            ]
         )
 
-        # Abrir el AlertDialog
-        self.page.open(alert_dialog)
+        # Mostrar el AlertDialog
+        self.page.overlay.append(dialog)
+        dialog.open = True
+        self.page.update()
 
-    def create_data_table(self, items):
-        # Crear las columnas del DataTable
-        columns = [
-            ft.DataColumn(ft.Text("Clave")),
-            ft.DataColumn(ft.Text("Valor")),
-        ]
-
-        # Crear las filas del DataTable
-        rows = [
-            ft.DataRow(
-                [ft.DataCell(ft.Text(k)), ft.DataCell(ft.Text(v))]
-            ) for k, v in items.items()
-        ]
-
-        # Crear el DataTable
-        data_table = ft.DataTable(
-            columns=columns,
-            rows=rows,
-            divider_thickness=1,  # Línea divisoria en medio
-            column_spacing=30,
-            heading_row_color=ft.colors.BLACK12,
-            heading_row_height=80,
-            data_row_color={ft.ControlState.HOVERED: "white"},
-            show_checkbox_column=False,
-        )
-
-        return data_table
+    def close_dialog(self, dialog):
+        dialog.open = False
+        self.page.update()
 
 # Ejemplo de uso
 def main(page: Page):
