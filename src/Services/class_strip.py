@@ -1,6 +1,7 @@
 import json
 import requests
 from bs4 import BeautifulSoup
+import os
 
 url_login = 'https://ase1.ceti.mx/tecnologo/seguridad/iniciarsesion'
 url_home = 'https://ase1.ceti.mx/tecnologo/tgoalumno/tiras'
@@ -57,10 +58,21 @@ def get_tira_materias(registro, password):
 
     return materias
 
-# # Ejemplo de uso
-# registro = '21110191'
-# password = '123asdzX'
-# materias_asignadas = get_tira_materias(registro, password)
+# Ejemplo de uso
+registro = '21110191'
+password = '123asdzX'
+materias_asignadas = get_tira_materias(registro, password)
 
-# # Imprimir las materias asignadas en formato JSON
-# print(json.dumps(materias_asignadas, indent=2, ensure_ascii=False))
+# Guardar las materias asignadas en un archivo JSON en la carpeta 'Data'
+if materias_asignadas is not None:
+    data_folder = os.path.join(os.getcwd(), 'Data')
+    os.makedirs(data_folder, exist_ok=True)
+    json_file_path = os.path.join(data_folder, 'materias_asignadas.json')
+
+    with open(json_file_path, 'w', encoding='utf-8') as json_file:
+        json.dump(materias_asignadas, json_file, indent=2, ensure_ascii=False)
+
+    print(f"Archivo JSON guardado en: {json_file_path}")
+
+# Imprimir las materias asignadas en formato JSON
+print(json.dumps(materias_asignadas, indent=2, ensure_ascii=False))

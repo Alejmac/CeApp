@@ -9,9 +9,9 @@ def create_nav_top(page: ft.Page):
     app_bar = ft.AppBar(
         
         leading_width=40,
-        title=ft.Text("CeApp", style="headlineMedium", color=ft.colors.BLACK),
+        title=ft.Text("CeApp", style="DM Serif Display", color=ft.colors.WHITE),
         center_title=False,
-        bgcolor=ft.colors.GREY_500,
+        bgcolor="#4158A6",
         actions=[
             ft.IconButton(
                 icon=ft.icons.PERM_IDENTITY_OUTLINED,

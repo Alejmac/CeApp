@@ -1,8 +1,9 @@
 import flet as ft
-from flet import Page, Column, Text, ExpansionTile, Container
+from flet import Page, Column, Text, Container, ElevatedButton, BottomSheet, ScrollMode
 from View.nav_top_View import create_nav_top
 from View.nav_bar_View import create_nav_bar  # Importar la función create_nav_bar
-from ViewModel.nav_bar_ViewModel import NavBarViewModel
+from ViewModel.teacher_ViewModel import TeacherViewModel  # Importar la clase TeacherViewModel
+import os
 
 class TeachersView:
     def __init__(self, main_instance):
@@ -14,7 +15,7 @@ class TeachersView:
         self.page = page
         page.spacing = 0
         page.padding = 0
-        page.bgcolor = ft.colors.WHITE
+        page.bgcolor = "#F1DEC6"  # Cambiar el color de fondo de la página
 
         # Ajustar el tamaño de la ventana a la resolución del iPhone 15
         page.window.width = 390
@@ -27,58 +28,70 @@ class TeachersView:
         nav_bar = create_nav_bar(page)
         nav_bar.width = page.window.width  # Establecer el ancho de nav_bar
 
-        # Definir datos de los profesores (esto es solo un ejemplo, ajusta según tu lógica)
-        datos_profesores = {
-            "Profesor 1": {"Materia": "Matemáticas", "Correo": "profesor1@ejemplo.com"},
-            "Profesor 2": {"Materia": "Ciencias", "Correo": "profesor2@ejemplo.com"},
-            "Profesor 3": {"Materia": "Historia", "Correo": "profesor3@ejemplo.com"}
-        }
+        # Obtener los datos de los profesores desde el ViewModel
+        view_model = TeacherViewModel()
+        datos_profesores = view_model.get_teachers()
 
-        # Crear los ExpansionTiles para cada profesor
-        expansion_tiles = [
-            ExpansionTile(
-                title=Text(f"{nombre}", size=14, weight="bold", color=ft.colors.BLACK),
-                subtitle=Text("Información adicional"),
-                affinity=ft.TileAffinity.PLATFORM,
-                maintain_state=True,
-                collapsed_text_color=ft.colors.RED,
-                text_color=ft.colors.RED,
-                controls=[
-                    Container(
-                        content=Column(
-                            controls=[
-                                Text(f"{k}: {v}", size=12, weight="bold", color=ft.colors.BLACK)
-                                for k, v in detalles.items()
-                            ],
-                            alignment=ft.MainAxisAlignment.SPACE_EVENLY,
-                            spacing=10
-                        ),
-                        margin=ft.margin.all(10)
-                    )
-                ],
-                on_change=lambda e: print(f"ExpansionTile {nombre} {'expanded' if e.data=='true' else 'collapsed'}")
-            ) for nombre, detalles in datos_profesores.items()
-        ]
+        # Crear los botones para cada materia
+        buttons = []
+        for profesor, items in datos_profesores.items():
+            for materia in items['materias']:
+                buttons.append(
+    ElevatedButton(
+        text=materia['nombre'],
+        on_click=lambda e, profesor=profesor, items=items: self.show_bottom_sheet(e, items),
+        style=ft.ButtonStyle(
+            bgcolor=ft.colors.WHITE,
+            color=ft.colors.BLACK,
+            padding=ft.padding.all(15),
+            elevation=20,
+            text_style=ft.TextStyle(
+                size=12,  # Tamaño de la letra más pequeño
+                #align=ft.TextAlign.CENTER  # Centrar el texto
+            )
+        ),
+        width=300,  # Ancho del botón
+        height=50,  # Altura del botón
+    )
+)
 
-        # Crear un Column con los ExpansionTiles
-        expansion_column = Column(
-            controls=expansion_tiles,
-            spacing=10,
-            expand=True
+
+        # Crear un Column con los botones
+        button_column = Column(
+            controls=buttons,
+            alignment=ft.MainAxisAlignment.CENTER,  # Centrar los botones verticalmente
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,  # Centrar los botones horizontalmente
+            scroll=ScrollMode.ALWAYS  # Habilitar el scroll
         )
 
-        # Crear un contenedor con margen superior de 15 px
-        container = Container(
-            content=expansion_column,
-            margin=ft.margin.only(top=15),  # Margen superior de 15 px
-            expand=True
+        # Crear un Container para centrar el Column con los botones
+        button_container = Container(
+            content=button_column,
+            alignment=ft.alignment.center,  # Centrar el Container
+            margin=ft.margin.only(top=20, left=13)  # Separación de 20 px arriba y 10 px a la izquierda
         )
+
+        # Crear un título "Materias"
+# Crear un título "Materias"
+        title_container = Container(
+    content=Text(
+        "Materias",
+        size=30,
+        weight="bold",
+        color=ft.colors.ORANGE_300,
+        font_family="DM Serif Display",  # Cambiar el estilo de letra
+        #decoration=ft.TextDecoration.UNDERLINE  # Remarcar en negro
+    ),
+    alignment=ft.alignment.center,  # Centrar el título
+    margin=ft.margin.only(top=60, bottom=0)  # Margen superior de 30 px y sin margen inferior
+)
 
         # Crear un contenedor principal que ocupe todo el espacio disponible
         main_container = Container(
             content=ft.Column(
                 controls=[
-                    container,  # Agregar el contenedor con margen superior
+                    title_container,  # Agregar el título
+                    button_container,  # Agregar el Container con los botones
                     nav_bar  # Agregar la barra de navegación inferior
                 ],
                 expand=True,
@@ -92,6 +105,116 @@ class TeachersView:
         # Agregar el contenedor principal a la página
         page.add(main_container)
         self.controls = [main_container]  # Guardar los controles para manejar la visibilidad
+
+    def show_bottom_sheet(self, e, items):
+        # Crear el contenido del BottomSheet
+        bottom_sheet_content = Column(
+            controls=[
+                self.create_data_table(items)
+            ],
+            spacing=10,
+            scroll=ScrollMode.ALWAYS  # Habilitar el scroll dentro del BottomSheet
+        )
+
+        # Crear un Container para ajustar la altura del BottomSheet
+        bottom_sheet_container = Container(
+            content=bottom_sheet_content,
+            height=800,  # Ajustar la altura del BottomSheet
+            bgcolor=ft.colors.WHITE,  # Cambiar el color de fondo a blanco
+            border_radius=ft.border_radius.all(20)  # Redondear las esquinas
+        )
+
+        # Crear el BottomSheet
+        bottom_sheet = BottomSheet(
+            content=bottom_sheet_container,
+            open=True,
+            on_dismiss=lambda e: print("BottomSheet cerrado")
+        )
+
+        # Agregar el BottomSheet a la página
+        self.page.overlay.append(bottom_sheet)
+        self.page.update()
+
+    def create_data_table(self, items):
+        # Crear las columnas del DataTable
+        columns = [
+            ft.DataColumn(ft.Text("Campo", color=ft.colors.BLACK)),
+            ft.DataColumn(ft.Text("__________________________________", color=ft.colors.BLACK))
+        ]
+
+        # Crear las filas del DataTable
+        rows = []
+        for materia in items['materias']:
+            rows.extend([
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text("Clave", color=ft.colors.BLACK)),
+                        ft.DataCell(ft.Text(materia['clave'], color=ft.colors.BLACK))
+                    ]
+                ),
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text("Nombre", color=ft.colors.BLACK)),
+                        ft.DataCell(ft.Text(materia['nombre'], color=ft.colors.BLACK))
+                    ]
+                ),
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text("División", color=ft.colors.BLACK)),
+                        ft.DataCell(ft.Text(materia['division'], color=ft.colors.BLACK))
+                    ]
+                ),
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text("Grupo", color=ft.colors.BLACK)),
+                        ft.DataCell(ft.Text(materia['grupo'], color=ft.colors.BLACK))
+                    ]
+                ),
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text("Tipo", color=ft.colors.BLACK)),
+                        ft.DataCell(ft.Text(materia['tipo'], color=ft.colors.BLACK))
+                    ]
+                ),
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text("Tipo Ponderación", color=ft.colors.BLACK)),
+                        ft.DataCell(ft.Text(materia['tipo_pond'], color=ft.colors.BLACK))
+                    ]
+                ),
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text("Primer Parcial", color=ft.colors.BLACK)),
+                        ft.DataCell(ft.Text(materia['primer_parcial'] or '', color=ft.colors.BLACK))
+                    ]
+                ),
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text("Segundo Parcial", color=ft.colors.BLACK)),
+                        ft.DataCell(ft.Text(materia['segundo_parcial'] or '', color=ft.colors.BLACK))
+                    ]
+                ),
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text("Tercer Parcial", color=ft.colors.BLACK)),
+                        ft.DataCell(ft.Text(materia['tercer_parcial'] or '', color=ft.colors.BLACK))
+                    ]
+                )
+            ])
+
+        # Crear el DataTable
+        data_table = ft.DataTable(
+            columns=columns,
+            rows=rows,
+            divider_thickness=1,  # Línea divisoria en medio
+            column_spacing=10,
+            heading_row_color=ft.colors.BLACK12,
+            heading_row_height=50,
+            data_row_color={ft.ControlState.HOVERED: "white"},
+            show_checkbox_column=False,
+        )
+
+        return data_table
 
 # Ejemplo de uso
 def main(page: Page):

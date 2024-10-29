@@ -2,22 +2,23 @@ import flet as ft
 from flet import NavigationBar, NavigationDestination, icons
 
 def create_nav_bar(page):
-    nav_bar = NavigationBar(
+    nav_bar = ft.CupertinoNavigationBar(
         destinations=[
             NavigationDestination(
                 icon=icons.SCHEDULE,
-                label="Schedule"
+                
             ),
             NavigationDestination(
                 icon=icons.CALENDAR_VIEW_MONTH,
-                label="Calendar"
+                
             ),
             NavigationDestination(
                 icon=icons.CALENDAR_VIEW_DAY,
-                label="Day View"
+                
             )
         ],
-        on_change=lambda e: handle_navigation(e, page)
+        on_change=lambda e: handle_navigation(e, page),
+        
     )
 
     return nav_bar

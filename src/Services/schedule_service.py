@@ -37,6 +37,7 @@ def obtener_horario(registro, password):
         
         # Obtener los días de la semana
         dias_semana = [clean_text(th.text) for th in rows[0].find_all('th')]
+        print(f"Días de la semana encontrados: {dias_semana}")
         
         # Iterar sobre las filas de la tabla, excluyendo la primera fila (encabezados de días)
         for row in rows[1:]:
@@ -91,4 +92,6 @@ def obtener_horario(registro, password):
     print(f"Archivo JSON guardado en: {json_file_path}")
     return horario_final
 
-print(json.dumps(obtener_horario('21110191','123asdzX'), indent=2, ensure_ascii=False))
+# Ejemplo de uso
+horario = obtener_horario('21110191', '123asdzX')
+print(json.dumps(horario, indent=2, ensure_ascii=False))

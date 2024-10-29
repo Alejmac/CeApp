@@ -53,7 +53,7 @@ class LoginViewModel:
         if sesion is not None:
             # Llamar a la función para obtener los datos
             obtener_data(registro, password)
-            self.crear_ventana(True)  # Llamar a crear_ventana con True
+            #self.crear_ventana(True)  # Llamar a crear_ventana con True
         else:
             print("Error: No se pudo iniciar sesión.")
             self.crear_ventana(False)  # Llamar a crear_ventana con False
