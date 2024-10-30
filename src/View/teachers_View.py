@@ -217,9 +217,9 @@ class TeachersView:
         return data_table
 
 # Ejemplo de uso
-def main(page: Page):
-    view = TeachersView(None)  # Pasar None como instancia principal para pruebas
-    view.build(page)
+#def main(page: Page):
+  #  view = TeachersView(None)  # Pasar None como instancia principal para pruebas
+  #  view.build(page)
 
-if __name__ == "__main__":
-    ft.app(target=main)
+#if __name__ == "__main__":
+  # ft.app(target=main)

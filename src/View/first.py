@@ -63,7 +63,7 @@ class FirstView:
                                         icon_size=30,
                                         icon_color=ft.colors.BLACK,
                                         bgcolor=ft.colors.WHITE,
-                                        on_click=self.on_button_click
+                                        on_click=lambda e: self.main_instance.on_button_click(1)  # Llamar a la función en Main
                                     ),
                                     margin=ft.margin.only(top=15),
                                     alignment=alignment.center
@@ -83,10 +83,3 @@ class FirstView:
 
         # Agregar el contenedor de la imagen a la página
         page.add(image_container)
-
-    def on_button_click(self, e):
-        from View.login_View  import LoginView
-        login_view = LoginView()
-        self.page.clean()  # Limpiar la página actual
-        login_view.build(self.page)  # Construir la vista de login
-        self.page.update()
