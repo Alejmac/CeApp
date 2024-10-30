@@ -3,7 +3,7 @@ import os
 
 class DataStudentModel:
     def __init__(self):
-        # Ajustar la ruta para que apunte a la carpeta 'data'
+         
         self.json_path = os.path.join(os.path.dirname(__file__), '..', 'Data', 'data_cleaned.json')
         self.data = self.load_data()
 

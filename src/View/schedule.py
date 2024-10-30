@@ -21,12 +21,10 @@ class ScheduleView:
         page.window.width = 390
         page.window.height = 844
 
-        # Crear la barra de navegación superior
         create_nav_top(page)
 
-        # Crear la barra de navegación inferior
         nav_bar = create_nav_bar(page)
-        nav_bar.width = page.window.width  # Establecer el ancho de nav_bar
+         
 
         # Crear el ViewModel
         view_model = ScheduleViewModel()
@@ -36,7 +34,7 @@ class ScheduleView:
             tabs=[
                 Tab(text="Lunes", content=self.create_tab_content(view_model.get_day_schedule("Lunes"))),
                 Tab(text="Martes", content=self.create_tab_content(view_model.get_day_schedule("Martes"))),
-                Tab(text="Miércoles", content=self.create_tab_content(view_model.get_day_schedule("Miércoles"))),
+                Tab(text="Miércoles", content=self.create_tab_content(view_model.get_day_schedule("Miercoles"))),
                 Tab(text="Jueves", content=self.create_tab_content(view_model.get_day_schedule("Jueves"))),
                 Tab(text="Viernes", content=self.create_tab_content(view_model.get_day_schedule("Viernes"))),
                 Tab(text="Sábado", content=self.create_tab_content(view_model.get_day_schedule("Sábado")))
@@ -45,7 +43,17 @@ class ScheduleView:
             indicator_color=ft.colors.WHITE,
             label_color=ft.colors.WHITE,
             unselected_label_color=ft.colors.WHITE,
-            height=50  # Ajustar la altura de las pestañas
+            height=50  
+        )
+
+        # Envolver las pestañas en un contenedor con fondo naranja
+        tabs_container = Container(
+            content=tabs,
+            bgcolor=ft.colors.ORANGE,
+            border_radius=ft.border_radius.all(10),  # Bordes redondeados
+            padding=ft.padding.all(5),
+            margin=ft.margin.only(bottom=40),  # Padding opcional
+            expand=True  # Asegurar que el contenedor se expanda
         )
 
         # Crear un contenedor principal que ocupe todo el espacio disponible
@@ -55,10 +63,10 @@ class ScheduleView:
                     Container(
                         content=Text("Horario", size=24, weight="bold", color=ft.colors.BLUE),
                         alignment=ft.alignment.center,
-                        margin=ft.margin.only(top=20)
+                        margin=ft.margin.only(top=20 , bottom=30)
                     ),
                     Container(
-                        content=tabs,
+                        content=tabs_container,
                         expand=True  # Asegurar que las pestañas se expandan
                     ),
                     nav_bar  # Agregar la barra de navegación inferior
@@ -91,7 +99,8 @@ class ScheduleView:
             bgcolor=ft.colors.WHITE,
             padding=ft.padding.all(10),
             border_radius=ft.border_radius.all(10),
-            expand=True
+            expand=True,
+            margin=ft.margin.only(top=10, bottom=20)  # Margen superior de 20 píxeles
         )
 
         return container
@@ -100,25 +109,39 @@ class ScheduleView:
         # Crear las columnas del DataTable
         columns = [
             DataColumn(Text("Hora", color=ft.colors.BLACK, size=12)),
-            DataColumn(Text("Materia", color=ft.colors.BLACK, size=12))
+            DataColumn(Text("       Materia", color=ft.colors.BLACK, size=12)),
+            DataColumn(Text("Salon", color=ft.colors.BLACK, size=12))
         ]
 
         # Crear las filas del DataTable
         rows = [
             DataRow(
                 cells=[
-                    DataCell(Text(time, color=ft.colors.BLACK, size=12)),
-                    DataCell(Text(", ".join(f"{key}: {value}" for key, value in details.items()), color=ft.colors.BLACK, size=12))
+                    DataCell(Container(content=Text(time.replace("-", ""), color=ft.colors.BLACK, size=8, height=60), margin=ft.margin.all(13))),  # Hora
+                    DataCell(Container(content=Text(details.get("materia", ""), color=ft.colors.BLACK, size=8, height=60), margin=ft.margin.all(13))),  # Materia
+                    DataCell(Container(content=Text(", ".join(details.get("materia_data", "").split(", ")[1:3]), color=ft.colors.BLACK, size=8, height=60), margin=ft.margin.all(13)))  # Materia Data (valores 1 y 2)
                 ]
             ) for time, details in day_schedule.items()
         ]
 
+        # Agregar una fila adicional al final
+        rows.append(
+            DataRow(
+                cells=[
+                    DataCell(Text("")),
+                    DataCell(Text("")),
+                    DataCell(Text(""))
+                ]
+            )
+        )
+
         # Crear el DataTable
         data_table = DataTable(
+            width=900,
             columns=columns,  # Asegurar que el DataTable tenga columnas visibles
             rows=rows,
             divider_thickness=1,
-            column_spacing=10,
+            column_spacing=10,  # Aumentar el espaciado entre columnas
             heading_row_color=ft.colors.BLACK12,
             heading_row_height=50,
             data_row_color={ft.ControlState.HOVERED: "0x30FF0000"},

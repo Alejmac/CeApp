@@ -86,8 +86,8 @@ def obtener_horario(registro, password):
     os.makedirs(data_folder, exist_ok=True)
     json_file_path = os.path.join(data_folder, 'schedule.json')
 
-    # with open(json_file_path, 'w', encoding='utf-8') as json_file:
-    #     json_file.write(horario_json)
+    with open(json_file_path, 'w', encoding='utf-8') as json_file:
+         json_file.write(horario_json)
 
     print(f"Archivo JSON guardado en: {json_file_path}")
     return horario_final
