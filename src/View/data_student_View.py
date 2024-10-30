@@ -1,38 +1,33 @@
 import flet as ft
 from flet import Page, Column, Text, Container, ScrollMode, Icon, icons
 from View.nav_top_View import create_nav_top
-from View.nav_bar_View import create_nav_bar  # Importar la función create_nav_bar
-from ViewModel.data_student_ViewModel import DataStudentViewModel  # Importar la clase DataStudentViewModel
+from View.nav_bar_View import create_nav_bar   
+from ViewModel.data_student_ViewModel import DataStudentViewModel   
 import os
 
 class DataStudentView:
     def __init__(self, main_instance):
-        self.main_instance = main_instance  # Almacenar la instancia principal
-        self.page = None  # Inicializar el atributo page
+        self.main_instance = main_instance   
+        self.page = None   
         self.controls = []
 
     def build(self, page: Page):
         self.page = page
         page.spacing = 0
         page.padding = 0
-        page.bgcolor = "#F1DEC6"  # Cambiar el color de fondo de la página
+        page.bgcolor = "#F1DEC6"  
 
-        # Ajustar el tamaño de la ventana a la resolución del iPhone 15
         page.window.width = 390
         page.window.height = 844
 
-        # Crear la barra de navegación superior
-        create_nav_top(page)
-
-        # Crear la barra de navegación inferior
+      
+        create_nav_top(page)     
         nav_bar = create_nav_bar(page)
-        nav_bar.width = page.window.width  # Establecer el ancho de nav_bar
+        nav_bar.width = page.window.width 
 
-        # Crear el ViewModel
         view_model = DataStudentViewModel()
         datos_estudiante = view_model.get_data_as_dict()
 
-        # Obtener los valores necesarios
         nombre = datos_estudiante.get("Nombre", "N/A")
         registro = datos_estudiante.get("Registro", "N/A")
         carrera = datos_estudiante.get("Carrera", "N/A")
@@ -60,15 +55,15 @@ class DataStudentView:
                     Container(
                         content=Icon(
                             name=icons.PERSON,
-                            size=40,
-                            color=ft.colors.BLUE
+                            size=50,
+                            color=ft.colors.BLACK,
+                             
                         ),
-                        width=page.window.width - 30,  # Ancho total menos 30px (15px de cada lado)
-                        height=60,
+                        height=80,
                         bgcolor=ft.colors.GREY,
                         alignment=ft.alignment.center,
-                        border_radius=ft.border_radius.all(10),  # Bordes redondeados
-                        margin=ft.margin.symmetric(horizontal=15)  # Margen de 15px a los lados
+                        border_radius=ft.border_radius.all(0),  # Bordes redondeados
+                       
                     ),
                     Container(
                         content=Text(f"{nombre}", size=14, weight="bold", color=ft.colors.BLACK),
@@ -78,7 +73,7 @@ class DataStudentView:
                     Container(
                         content=Text(f"{registro}", size=14, weight="bold", color=ft.colors.BLACK),
                         alignment=ft.alignment.center,
-                        margin=ft.margin.only(top=4)
+                        margin=ft.margin.only(top=3)
                     ),
                     Container(
                         content=Column(
@@ -90,12 +85,12 @@ class DataStudentView:
                             ],
                             spacing=5
                         ),
-                        width=page.window.width - 30,  # Ancho total menos 30px (15px de cada lado)
+                     
                         bgcolor=ft.colors.BLUE,
                         padding=ft.padding.all(10),
-                        margin=ft.margin.only(top=20, left=15, right=15),  # Margen de 15px a los lados
+                        margin=ft.margin.only(top=20, left=5, right=70),   
                         alignment=ft.alignment.center_left,
-                        border_radius=ft.border_radius.all(10)  # Bordes redondeados
+                        border_radius=ft.border_radius.all(10)  
                     ),
                     Container(
                         content=Column(
@@ -107,12 +102,12 @@ class DataStudentView:
                             ],
                             spacing=5
                         ),
-                        width=page.window.width - 30,  # Ancho total menos 30px (15px de cada lado)
+                      
                         bgcolor=ft.colors.WHITE,
                         padding=ft.padding.all(10),
-                        margin=ft.margin.only(top=20, left=15, right=15),  # Margen de 15px a los lados
-                        alignment=ft.alignment.center_left,
-                        border_radius=ft.border_radius.all(10)  # Bordes redondeados
+                        margin=ft.margin.only(top=10, left=70, right=10),   
+                        alignment=ft.alignment.center_right,
+                        border_radius=ft.border_radius.all(10)   
                     ),
                     Container(
                         content=Column(
@@ -123,12 +118,12 @@ class DataStudentView:
                             ],
                             spacing=5
                         ),
-                        width=page.window.width - 30,  # Ancho total menos 30px (15px de cada lado)
+                      
                         bgcolor=ft.colors.BLUE,
                         padding=ft.padding.all(10),
-                        margin=ft.margin.only(top=10, left=15, right=15),  # Margen de 15px a los lados
-                        alignment=ft.alignment.center_right,
-                        border_radius=ft.border_radius.all(10)  # Bordes redondeados
+                        margin=ft.margin.only(top=10, left=10, right=70),   
+                        alignment=ft.alignment.center_left,
+                        border_radius=ft.border_radius.all(10)   
                     ),
                     Container(
                         content=Column(
@@ -139,12 +134,12 @@ class DataStudentView:
                             ],
                             spacing=5
                         ),
-                        width=page.window.width - 30,  # Ancho total menos 30px (15px de cada lado)
+                      
                         bgcolor=ft.colors.WHITE,
                         padding=ft.padding.all(10),
-                        margin=ft.margin.only(top=20, left=15, right=15),  # Margen de 15px a los lados
-                        alignment=ft.alignment.center_left,
-                        border_radius=ft.border_radius.all(10)  # Bordes redondeados
+                        margin=ft.margin.only(top=10,  left=70, right=10),  
+                        alignment=ft.alignment.center_right,
+                        border_radius=ft.border_radius.all(10)   
                     )
                 ],
                 expand=True,
@@ -152,13 +147,11 @@ class DataStudentView:
                 scroll=ScrollMode.ALWAYS
             ),
             expand=True,
-            margin=ft.margin.only(top=10, bottom=10)  # Ajustar el margen para que no se superponga con el top y el nav
-        )
-
-        # Agregar el contenedor principal a la página
+            margin=ft.margin.only(top=0, bottom=10)  
+        )        
         page.add(main_container)
-        page.add(nav_bar)  # Agregar la barra de navegación inferior
-        self.controls = [main_container]  # Guardar los controles para manejar la visibilidad
+        page.add(nav_bar)  
+        self.controls = [main_container]   
 
 # Ejemplo de uso
 def main(page: Page):
