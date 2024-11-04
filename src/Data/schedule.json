@@ -233,15 +233,8 @@
       ]
     },
     "20:00 - 20:50": {
-      "materia": [
-        "INNOVACIÓN Y HABILIDADES EMPRENDEDORAS"
-      ],
-      "materia_data": [
-        "7K",
-        "G",
-        "G:204",
-        "AULAS"
-      ]
+      "materia": "",
+      "materia_data": []
     },
     "20:50 - 21:40": {
       "materia": "",
@@ -267,10 +260,14 @@
     },
     "18:20 - 19:10": {
       "materia": [
-        "INNOVACIÓN Y HABILIDADES EMPRENDEDORAS",
         "PROYECTO II"
       ],
-      "materia_data": []
+      "materia_data": [
+        "8N",
+        "B",
+        "D:LS",
+        "LABORATORIO DE SOFTWARE"
+      ]
     },
     "19:10 - 20:00": {
       "materia": [
@@ -335,10 +332,14 @@
     },
     "17:30 - 18:20": {
       "materia": [
-        "INNOVACIÓN Y HABILIDADES EMPRENDEDORAS",
         "INGLÉS VII"
       ],
-      "materia_data": []
+      "materia_data": [
+        "8N",
+        "B",
+        "B:111",
+        "AULAS"
+      ]
     },
     "18:20 - 19:10": {
       "materia": [

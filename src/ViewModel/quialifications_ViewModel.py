@@ -52,9 +52,9 @@ class QualificationsViewModel:
         return self.tercer_parcial
 
 # Ejemplo de uso
-if __name__ == "__main__":
-    view_model = QualificationsViewModel()
-    print("Materias:", view_model.get_materias())
-    print("1ER. PARCIAL:", view_model.get_primer_parcial())
-    print("2DO. PARCIAL:", view_model.get_segundo_parcial())
-    print("3ER. PARCIAL:", view_model.get_tercer_parcial())
+#if __name__ == "__main__":
+  #  view_model = QualificationsViewModel()
+  #  print("Materias:", view_model.get_materias())
+  #  print("1ER. PARCIAL:", view_model.get_primer_parcial())
+   # print("2DO. PARCIAL:", view_model.get_segundo_parcial())
+   # print("3ER. PARCIAL:", view_model.get_tercer_parcial())

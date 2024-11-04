@@ -27,6 +27,8 @@ def login_ceti(registro, password):
         return None
 
 def logout_ceti(sesion):
+    if sesion is None:
+        return False
     url_logout = 'https://ase1.ceti.mx/tecnologo/tgoalumno/salir'
     response_logout = sesion.get(url_logout)
 

@@ -1,11 +1,10 @@
 import flet as ft
-from flet import Page, Column, Text, Container, ElevatedButton, BottomSheet, ScrollMode,View,AppBar
+from flet import Page, Column, Text, Container, ElevatedButton, BottomSheet, ScrollMode, View
 from View.nav_top_View import create_nav_top
 from View.nav_bar_View import create_nav_bar  # Importar la función create_nav_bar
 from ViewModel.teacher_ViewModel import TeacherViewModel  # Importar la clase TeacherViewModel
 import os
 
- 
 def create_data_table(items):
     # Crear las columnas del DataTable
     columns = [
@@ -117,7 +116,6 @@ def show_bottom_sheet(page, items):
     page.update()
 
 def TeachersView(page: ft.Page):
- 
     # Ajustar el tamaño de la ventana a la resolución del iPhone 15
     page.window.width = 390
     page.window.height = 844
@@ -131,11 +129,13 @@ def TeachersView(page: ft.Page):
     # Obtener los datos de los profesores desde el ViewModel
     view_model = TeacherViewModel()
     datos_profesores = view_model.get_teachers()
+    print("Datos de los profesores en TeachersView:", datos_profesores)  # Agregar declaración de impresión
 
     # Crear los botones para cada materia
     buttons = []
     for profesor, items in datos_profesores.items():
         for materia in items['materias']:
+            print(f"Creando botón para materia: {materia['nombre']} del profesor: {profesor}")  # Agregar declaración de impresión
             buttons.append(
                 ElevatedButton(
                     text=materia['nombre'],
@@ -167,7 +167,7 @@ def TeachersView(page: ft.Page):
     button_container = Container(
         content=button_column,
         alignment=ft.alignment.center,  # Centrar el Container
-        margin=ft.margin.only(top=20, left=13)  # Separación de 20 px arriba y 10 px a la izquierda
+        margin=ft.margin.only(top=0, left=13 , bottom= 40)  # Separación de 20 px arriba y 10 px a la izquierda
     )
 
     # Crear un título "Materias"
@@ -181,7 +181,7 @@ def TeachersView(page: ft.Page):
             #decoration=ft.TextDecoration.UNDERLINE  # Remarcar en negro
         ),
         alignment=ft.alignment.center,  # Centrar el título
-        margin=ft.margin.only(top=60, bottom=0)  # Margen superior de 30 px y sin margen inferior
+        margin=ft.margin.only(top=10, bottom=0)  # Margen superior de 30 px y sin margen inferior
     )
     nav_top = create_nav_top(page)    
     # Crear un contenedor principal que ocupe todo el espacio disponible
@@ -191,21 +191,20 @@ def TeachersView(page: ft.Page):
                 # Crear la barra de navegación superior
                 nav_top,
                 title_container,  # Agregar el título
-                button_container,  # Agregar el Container con los botones
-                nav_bar,
-                  # Agregar la barra de navegación inferior
+                button_container
+                   
             ],
             expand=True,
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN
         ),
         expand=True,
-        margin=ft.margin.all(0),  # Sin margen alrededor del contenedor principal
+        margin=ft.margin.only(bottom=10), # Sin margen alrededor del contenedor principal
         padding=ft.padding.all(0)  # Sin padding alrededor del contenedor principal
+        
     )
     page.update()
-    return View("/teachers", [main_container],bgcolor="#F1DEC6",padding=0, spacing=0)
-    #page.update()
+    return View("/teachers", [main_container], bgcolor="#F1DEC6", padding=0, spacing=0, appbar=nav_bar)
     #page.add(main_container)
-
+    
 #if __name__ == "__main__":
-    #ft.app(target=TeachersView)
+  #  ft.app(target=TeachersView)

@@ -126,19 +126,20 @@ def DataStudentView(page: Page):
                     margin=ft.margin.only(top=10,  left=70, right=10),  
                     alignment=ft.alignment.center_right,
                     border_radius=ft.border_radius.all(10)   
-                ), nav_bar,
+                ),
             ],
             
-            #expand=True,
-            #spacing=10,
-            #scroll=ScrollMode.ALWAYS
+            expand=True,
+            spacing=22,
+            scroll=ScrollMode.ALWAYS,
         ),
-        #expand=True,
-        margin=ft.margin.only(top=2, bottom=0)  
+        
+        expand=True,
+        margin=ft.margin.only(top=0, bottom=0)  
     )        
     #page.add(main_container)
     #page.add(nav_bar)  
-    return View("/data_student", [main_container],bgcolor="#F1DEC6",padding=0, spacing=0)
+    return View("/data_student", [main_container],bgcolor="#F1DEC6",padding=0, spacing=0, appbar=nav_bar)
 
 if __name__ == "__main__":
     ft.app(target=DataStudentView)

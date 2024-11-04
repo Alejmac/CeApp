@@ -26,6 +26,6 @@ class DataStudentViewModel:
             print(f"{key}: {value}")
 
 # Ejemplo de uso
-if __name__ == "__main__":
-    view_model = DataStudentViewModel()
-    view_model.iterate_data()
+#if __name__ == "__main__":
+ #   view_model = DataStudentViewModel()
+  #  view_model.iterate_data()

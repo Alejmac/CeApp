@@ -21,14 +21,10 @@ def on_login_click(page  , registro_field , password_field ):
                 ft.TextButton("OK", on_click=lambda e: close_alert(page, alert, success=True))
             ]
         )
-        #page.dialog = alert
-        #alert.open = True
         page.overlay.append(alert)
         alert.open = True
         page.update()
-        #LoginViewModel.obtener_horario_servicio(registro, password)
-        #LoginViewModel.obtener_calificaciones_servicio(registro, password)
-       # LoginViewModel.obtener_data_servicio(registro, password)
+
     else:
         alert = AlertDialog(
             title=Text("Login Fallido"),
@@ -37,18 +33,15 @@ def on_login_click(page  , registro_field , password_field ):
                 ft.TextButton("OK", on_click=lambda e: close_alert(page, alert, success=False))
             ]
         )
-    page.overlay.append(alert)
-    alert.open = True
-    page.update()
-
-
+        page.overlay.append(alert)
+        alert.open = True
+        page.update()
 
 def close_alert(page, alert, success):
     alert.open = False
     page.update()
     if success:
-        #mandamos a llamaar la vista de horario
-        page.go("/schedule")
+        page.go("/shcedule")
 
 def LoginView(page: Page):
     page.bgcolor = ft.colors.ORANGE_50
@@ -123,7 +116,8 @@ def LoginView(page: Page):
                     text="INICIAR",
                     width=280,
                     bgcolor="#FF8343",
-                    on_click=lambda _: on_login_click(page, registro_field, password_field)
+                    #on_click= lambda _:page.go("/teachers")
+                    on_click=lambda e: on_login_click(page, registro_field, password_field)
                 ),
                 padding=ft.padding.only(20, 20)
             )
@@ -147,5 +141,5 @@ def LoginView(page: Page):
    # page.add(login_container)
     return ft.View("/login", [image_container, login_container], bgcolor=ft.colors.ORANGE_50,vertical_alignment = 'start',horizontal_alignment = "center")
 
-if __name__ == "__main__":
-    ft.app(target=LoginView)
+#if __name__ == "__main__":
+  #  ft.app(target=LoginView)

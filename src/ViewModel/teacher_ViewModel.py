@@ -1,4 +1,5 @@
 import os
+import json
 from Model.teacher_Model import TeacherModel
 
 class TeacherViewModel:
@@ -47,7 +48,7 @@ class TeacherViewModel:
         return self.teachers.get(profesor, {})
 
 # Ejemplo de uso
-if __name__ == "__main__":
-    view_model = TeacherViewModel()
-    print("Datos de todos los profesores:", view_model.get_teachers())
-    print("Datos del profesor 'Sr. Pérez':", view_model.get_teacher('Sr. Pérez'))
+#if __name__ == "__main__":
+ #  view_model = TeacherViewModel()
+ #  print("Datos de los profesores:", json.dumps(view_model.get_teachers(), indent=2, ensure_ascii=False))
+   

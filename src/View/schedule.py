@@ -125,8 +125,7 @@ def ScheduleView(page: ft.Page):
                 Container(
                     content=tabs_container,
                     expand=True  # Asegurar que las pestañas se expandan
-                ),
-                nav_bar  # Agregar la barra de navegación inferior
+                ) # Agregar la barra de navegación inferior
             ],
             expand=True,
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN
@@ -137,6 +136,6 @@ def ScheduleView(page: ft.Page):
     )
 
     page.update()
-    return View("/schedule", [main_container],bgcolor="#F1DEC6",padding=0, spacing=0)
+    return View("/schedule", [main_container],bgcolor="#F1DEC6",padding=0, spacing=0, appbar=nav_bar)
  #if __name__ == "__main__":
  #   ft.app(target=ScheduleView)

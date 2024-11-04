@@ -123,8 +123,7 @@ def QualificationsView(page: Page):
                     padding=ft.padding.all(10),  # Padding alrededor del título
                     margin=ft.margin.only(bottom=30)  # Separación inferior de 30px
                 ),
-                collection_column,  # Agregar el Column con los contenedores de las colecciones
-                nav_bar  # Agregar la barra de navegación inferior
+                collection_column  # Agregar el Column con los contenedores de las colecciones
             ],
             expand=True,
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
@@ -137,7 +136,7 @@ def QualificationsView(page: Page):
 
     #page.add(main_container)
     page.update()
-    return View("/qualifications", [main_container], bgcolor="#F1DEC6", padding=0, spacing=0)
+    return View("/qualifications", [main_container], bgcolor="#F1DEC6", padding=0, spacing=0, appbar=nav_bar)
 
 #if __name__ == "__main__":
 #    ft.app(target=QualificationsView)

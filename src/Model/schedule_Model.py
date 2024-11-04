@@ -14,6 +14,6 @@ class ScheduleModel:
         return self.data
 
 # Ejemplo de uso
-if __name__ == "__main__":
-    model = ScheduleModel()
-    print("Datos del JSON:", model.get_data())
+##if __name__ == "__main__":
+   # model = ScheduleModel()
+  #  print("Datos del JSON:", model.get_data())

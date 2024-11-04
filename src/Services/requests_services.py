@@ -7,17 +7,17 @@ from plyer import storagepath
 from unidecode import unidecode
 
 
-#def get_session(registro, password):
- #   url_login = 'https://ase1.ceti.mx/tecnologo/seguridad/iniciarsesion'
-  #  datos_post = {'registro': registro, 'password': password}
-   # try:
-    #    sesion = requests.Session()
-     #   response_login = sesion.post(url_login, data=datos_post)
-      #  response_login.raise_for_status()
-    #except requests.RequestException as e:
-     #   print(f"Error al realizar la solicitud de login: {e}")
-      #  return None
-    #return sesion
+def get_session(registro, password):
+    url_login = 'https://ase1.ceti.mx/tecnologo/seguridad/iniciarsesion'
+    datos_post = {'registro': registro, 'password': password}
+    try:
+        sesion = requests.Session()
+        response_login = sesion.post(url_login, data=datos_post)
+        response_login.raise_for_status()
+    except requests.RequestException as e:
+        print(f"Error al realizar la solicitud de login: {e}")
+        return None
+    return sesion
 
 def get_tira_materias(sesion):
     url_home = 'https://ase1.ceti.mx/tecnologo/tgoalumno/tiras'
