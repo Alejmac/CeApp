@@ -19,21 +19,21 @@ class LoginViewModel:
     #sesion = get_session(registro, password)
 
             materias_asignadas = get_tira_materias(sesion)
-            save_file(materias_asignadas, 'aaa_tiradematerias.json')
-            print(json.dumps(materias_asignadas, indent=2, ensure_ascii=False))
+            save_file(materias_asignadas, 'materias_asignadas.json')
+           # print(json.dumps(materias_asignadas, indent=2, ensure_ascii=False))
 
             calificaciones = get_grades(sesion)
-            save_file(calificaciones, 'aaa_calificaiones.json')
-            print(json.dumps(calificaciones, indent=2, ensure_ascii=False))
+            save_file(calificaciones, 'qualifications.json')
+           # print(json.dumps(calificaciones, indent=2, ensure_ascii=False))
 
     #####Tiene problemas con la extraccion de datos, no esta jalando nada por lo menos en mi horario del juevesni el viernes#####
             horario = get_schedule(sesion)
-            save_file(horario, 'aaa_horario.json') 
-            print(json.dumps(horario, indent=2, ensure_ascii=False))
+            save_file(horario, 'schedule.json') 
+            #print(json.dumps(horario, indent=2, ensure_ascii=False))
 
             student = get_student(sesion)
-            save_file(student, 'aaa_estudiante.json')
-            print(json.dumps(student, indent=2, ensure_ascii=False))
+            save_file(student, 'data_cleaned.json')
+            #print(json.dumps(student, indent=2, ensure_ascii=False))
 
     # Cerrar la sesión
             sesion.close()
