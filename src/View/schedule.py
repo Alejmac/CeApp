@@ -1,121 +1,142 @@
 import flet as ft
-from flet import *
+from flet import Page, Column, Text, Container, Tabs, Tab, DataTable, DataColumn, DataRow, DataCell, ListView,View
+from View.nav_top_View import create_nav_top
+from View.nav_bar_View import create_nav_bar  # Importar la función create_nav_bar
+from ViewModel.schedule_ViewModel import ScheduleViewModel  # Importar la clase ScheduleViewModel
+import os
 
-class ScheduleView:
-    def __init__(self):
-        pass
+def create_tab_content(day_schedule):
+    # Crear el DataTable
+    data_table = create_data_table(day_schedule)
 
-    def build(self, page: Page):
-        page.title = "Horario del Alumno"
-        page.vertical_alignment = "start"
-        page.horizontal_alignment = "center"
-        page.bgcolor = ft.colors.ORANGE_50
+    # Crear un ListView con scroll que contenga el DataTable
+    list_view = ListView(
+        controls=[data_table],
+        expand=True
+    )
 
-        # Establecer el tamaño de la ventana
-        #page.window_width = 350
-        #page.window_height = 700
+    # Crear un contenedor blanco que contenga el ListView
+    container = Container(
+        content=list_view,
+        bgcolor=ft.colors.WHITE,
+        padding=ft.padding.all(10),
+        border_radius=ft.border_radius.all(10),
+        expand=True,
+        margin=ft.margin.only(top=10, bottom=20)  # Margen superior de 20 píxeles
+    )
 
-        # Imágenes encima del contenedor superior
-        top_icons = ft.Row(
-            controls=[
-                ft.Image(src="img/lineas.png", width=32, height=32),
-                ft.Image(src="img/perfil2.png", width=32, height=32)
+    return container
+
+def create_data_table(day_schedule):
+    # Crear las columnas del DataTable
+    columns = [
+        DataColumn(Text("Hora", color=ft.colors.BLACK, size=12)),
+        DataColumn(Text("       Materia", color=ft.colors.BLACK, size=12)),
+        DataColumn(Text("Salon", color=ft.colors.BLACK, size=12))
+    ]
+
+    # Crear las filas del DataTable
+    rows = [
+        DataRow(
+            cells=[
+                DataCell(Container(content=Text(time.replace("-", ""), color=ft.colors.BLACK, size=8, height=60), margin=ft.margin.all(13))),  # Hora
+                DataCell(Container(content=Text(details.get("materia", ""), color=ft.colors.BLACK, size=8, height=60), margin=ft.margin.all(13))),  # Materia
+                DataCell(Container(content=Text(", ".join(details.get("materia_data", "").split(", ")[1:3]), color=ft.colors.BLACK, size=8, height=60), margin=ft.margin.all(13)))  # Materia Data (valores 1 y 2)
+            ]
+        ) for time, details in day_schedule.items()
+    ]
+
+    # Agregar una fila adicional al final
+    rows.append(
+        DataRow(
+            cells=[
+                DataCell(Text("")),
+                DataCell(Text("")),
+                DataCell(Text(""))
+            ]
+        )
+    )
+
+    # Crear el DataTable
+    data_table = DataTable(
+        width=900,
+        columns=columns,  # Asegurar que el DataTable tenga columnas visibles
+        rows=rows,
+        divider_thickness=1,
+        column_spacing=10,  # Aumentar el espaciado entre columnas
+        heading_row_color=ft.colors.BLACK12,
+        heading_row_height=50,
+        data_row_color={ft.ControlState.HOVERED: "0x30FF0000"},
+        show_checkbox_column=False,
+        expand=True  # Asegurar que el DataTable se expanda
+    )
+
+    return data_table
+
+def ScheduleView(page: ft.Page):
+  
+    # Ajustar el tamaño de la ventana a la resolución del iPhone 15
+    page.window.width = 390
+    page.window.height = 844
+
+    nav_top= create_nav_top(page)
+
+    nav_bar = create_nav_bar(page)
+
+    # Crear el ViewModel
+    view_model = ScheduleViewModel()
+
+    # Crear las pestañas para cada día de la semana
+    tabs = Tabs(
+        tabs=[
+            Tab(text="Lunes", content=create_tab_content(view_model.get_day_schedule("Lunes"))),
+            Tab(text="Martes", content=create_tab_content(view_model.get_day_schedule("Martes"))),
+            Tab(text="Miércoles", content=create_tab_content(view_model.get_day_schedule("Miercoles"))),
+            Tab(text="Jueves", content=create_tab_content(view_model.get_day_schedule("Jueves"))),
+            Tab(text="Viernes", content=create_tab_content(view_model.get_day_schedule("Viernes"))),
+            Tab(text="Sábado", content=create_tab_content(view_model.get_day_schedule("Sábado")))
+        ],
+        expand=True,
+        indicator_color=ft.colors.WHITE,
+        label_color=ft.colors.WHITE,
+        unselected_label_color=ft.colors.WHITE,
+        height=50  
+    )
+
+    # Envolver las pestañas en un contenedor con fondo naranja
+    tabs_container = Container(
+        content=tabs,
+        bgcolor=ft.colors.ORANGE,
+        border_radius=ft.border_radius.all(10),  # Bordes redondeados
+        padding=ft.padding.all(5),
+        margin=ft.margin.only(bottom=40),  # Padding opcional
+        expand=True  # Asegurar que el contenedor se expanda
+    )
+
+    # Crear un contenedor principal que ocupe todo el espacio disponible
+    main_container = Container(
+        content=ft.Column(
+            controls=[nav_top,
+                Container(
+                    content=Text("Horario", size=24, weight="bold", color=ft.colors.BLUE),
+                    alignment=ft.alignment.center,
+                    margin=ft.margin.only(top=20 , bottom=30)
+                ),
+                Container(
+                    content=tabs_container,
+                    expand=True  # Asegurar que las pestañas se expandan
+                ),
+                nav_bar  # Agregar la barra de navegación inferior
             ],
-            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
-            width=page.window.width
-        )
+            expand=True,
+            alignment=ft.MainAxisAlignment.SPACE_BETWEEN
+        ),
+        expand=True,
+        margin=ft.margin.all(0),  # Sin margen alrededor del contenedor principal
+        padding=ft.padding.all(0)  # Sin padding alrededor del contenedor principal
+    )
 
-        # Contenedor superior con 6 divisiones horizontales
-        top_container = ft.Container(
-            content=ft.Row(
-                controls=[
-                    ft.Container(
-                        content=ft.Text(f"Día {i+1}", text_align="center"),
-                        expand=True,
-                        height=50,
-                        bgcolor=ft.colors.GREY_200,  # Parte superior
-                        alignment=ft.alignment.center,
-                        border=ft.border.all(1, ft.colors.WHITE)  # Borde blanco para divisiones
-                    ) for i in range(6)
-                ],
-                alignment=ft.MainAxisAlignment.SPACE_EVENLY,
-                spacing=0  # Sin separación entre divisiones
-            ),
-            margin=ft.margin.only(top=20 , left = 40),
-            width=300,  # Ajustar el ancho para que coincida con el contenedor central
-            height=50,
-            alignment=ft.alignment.center,  # Centrar el contenedor
-            border_radius=ft.border_radius.only(top_left=10, top_right=10, bottom_left=10, bottom_right=10)  # Bordes redondeados solo en las esquinas
-        )
-
-        # Contenedor izquierdo con 8 divisiones verticales para las horas
-        left_container = ft.Container(
-            content=ft.Column(
-                controls=[
-                    ft.Container(
-                        content=ft.Text(f"{8+i}:00", text_align="center"),
-                        width=50,
-                        height=50,  # Ajustar la altura de cada división
-                        bgcolor=ft.colors.ORANGE,  # Contenedor de horarios
-                        alignment=ft.alignment.center,
-                        border=ft.border.all(1, ft.colors.WHITE)  # Borde blanco para divisiones
-                    ) for i in range(8)
-                ],
-                alignment=ft.MainAxisAlignment.SPACE_EVENLY,
-                spacing=0  # Sin separación entre divisiones
-            ),
-            width=50,
-            height=400,  # Ajustar la altura total del contenedor izquierdo
-            margin=ft.margin.only(top=20, bottom=10),
-            border_radius=ft.border_radius.only(top_left=10, top_right=10, bottom_left=10, bottom_right=10)  # Bordes redondeados solo en las esquinas
-        )
-
-        # Nuevo contenedor central con GridView de 8 filas y 6 columnas
-        central_container = ft.Container(
-            content=ft.GridView(
-                controls=[
-                    ft.Container(
-                        content=ft.Text(f"Materia {i+1}", text_align="center"),
-                        width=50,  # Ajustar el ancho para que coincida con el contenedor izquierdo
-                        height=50,  # Ajustar la altura para que coincida con el contenedor izquierdo
-                        bgcolor=ft.colors.GREY,  # Contenedor más grande
-                        alignment=ft.alignment.center,
-                        border=ft.border.all(1, ft.colors.WHITE),  # Borde blanco para divisiones
-                        border_radius=15
-                    ) for i in range(48)  # 8 filas * 6 columnas
-                ],
-                runs_count=6,  # Número de columnas
-                spacing=0,  # Sin separación entre cuadritos
-                run_spacing=0,  # Sin separación entre filas
-                expand=False  # No expandir el GridView
-            ),
-            width=300,  # Fijar el ancho del contenedor central
-            height=400,  # Fijar la altura del contenedor central
-            margin=ft.margin.only(top=20, bottom=10, left=5),  # Establecer márgenes
-            alignment=ft.alignment.center,  # Centrar el contenedor
-            border_radius=ft.border_radius.only(top_left=10, top_right=10, bottom_left=10, bottom_right=10)  # Bordes redondeados solo en las esquinas
-        )
-
-        # Barra de navegación inferior
-        bottom_navigation = ft.Container(
-            content=ft.Row(
-                controls=[
-                    ft.IconButton(icon=ft.icons.HOME, on_click=lambda e: print("Home")),
-                    ft.IconButton(icon=ft.icons.SCHEDULE, on_click=lambda e: print("Schedule")),
-                    ft.IconButton(icon=ft.icons.SETTINGS, on_click=lambda e: print("Settings"))
-                ],
-                alignment=ft.MainAxisAlignment.SPACE_AROUND
-            ),
-            width=page.window.width,
-            height=50,
-            bgcolor=ft.colors.GREY_200,  # Parte superior
-            margin=ft.margin.only(bottom=10, left=0, right=0),  # Quitar margen derecho
-            border_radius=ft.border_radius.all(40)  # Bordes redondeados con radio de 40 píxeles
-        )
-
-        # Agregar contenedores a la página
-        page.add(top_icons)
-        page.add(ft.Container(content=top_container, alignment=ft.alignment.center))  # Centrar el contenedor superior
-        page.add(ft.Row([left_container, central_container], alignment=ft.MainAxisAlignment.CENTER, spacing=0, expand=True))
-        page.add(bottom_navigation)
-
+    page.update()
+    return View("/schedule", [main_container],bgcolor="#F1DEC6",padding=0, spacing=0)
+ #if __name__ == "__main__":
+ #   ft.app(target=ScheduleView)

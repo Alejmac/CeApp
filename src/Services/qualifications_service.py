@@ -69,17 +69,30 @@ def parsear_tabla(soup, table):
 
     return grades_json
 
-def obtener_calificaciones(sesion, registro, password):
+def obtener_calificaciones( registro, password):
+    url_login = 'https://ase1.ceti.mx/tecnologo/seguridad/iniciarsesion'
     url_home = 'https://ase1.ceti.mx/tecnologo/tgoalumno/calificaciones'
+
+    datos_post = {'registro': registro, 'password': password}
+
+    try:
+        sesion = requests.Session()
+        response_login = sesion.post(url_login, data=datos_post)
+        response_login.raise_for_status()
+    except requests.RequestException as e:
+        print(f"Error al realizar la solicitud de login: {e}")
+        return None
 
     try:
         response_home = sesion.get(url_home)
         response_home.raise_for_status()
     except requests.RequestException as e:
         print(f"Error al realizar la solicitud: {e}")
-        return
+        return None
 
     soup = BeautifulSoup(response_home.content, 'html.parser')
+
+
 
     # Buscar el div con id 'cal'
     div_cal = soup.find('div', {'id': 'cal'})
@@ -105,7 +118,7 @@ def obtener_calificaciones(sesion, registro, password):
             data_folder = os.path.join(os.getcwd(), 'Data')
 
         os.makedirs(data_folder, exist_ok=True)
-        json_file_path = os.path.join(data_folder, 'calificaciones.json')
+        json_file_path = os.path.join(data_folder, 'qualifications.json')
 
         with open(json_file_path, 'w', encoding='utf-8') as json_file:
             json_file.write(grades_json)

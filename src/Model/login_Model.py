@@ -18,10 +18,21 @@ def login_ceti(registro, password):
         response_home = sesion.get(url_home)
         if response_home.url == url_home:
             print("Login exitoso")
-            return True
+            return sesion
         else:
             print(f"Login fallido: No se pudo acceder a la página de inicio. URL: {response_home.url}")
-            return False
+            return None
     else:
         print(f"Login fallido: {response_login.status_code}, URL: {response_login.url}")
+        return None
+
+def logout_ceti(sesion):
+    url_logout = 'https://ase1.ceti.mx/tecnologo/tgoalumno/salir'
+    response_logout = sesion.get(url_logout)
+
+    if response_logout.status_code == 200:
+        print("Logout exitoso de cierrre **********")
+        return True
+    else:
+        print(f"*****Logout fallido: {response_logout.status_code}, URL: {response_logout.url}")
         return False

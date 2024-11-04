@@ -1,0 +1,408 @@
+{
+  "Lunes": {
+    "15:00 - 15:50": {
+      "materia": [
+        "ÉTICA PROFESIONAL"
+      ],
+      "materia_data": [
+        "8N",
+        "L",
+        "L:207",
+        "AULAS"
+      ]
+    },
+    "15:50 - 16:40": {
+      "materia": [
+        "ÉTICA PROFESIONAL"
+      ],
+      "materia_data": [
+        "8N",
+        "L",
+        "L:207",
+        "AULAS"
+      ]
+    },
+    "16:40 - 17:30": {
+      "materia": [
+        "INGENIERÍA INVERSA"
+      ],
+      "materia_data": [
+        "8N",
+        "F",
+        "F:LABD",
+        "LABORATORIOS DE COMPUTACION Y SOFTWARE LIBRE"
+      ]
+    },
+    "17:30 - 18:20": {
+      "materia": [
+        "INGENIERÍA INVERSA"
+      ],
+      "materia_data": [
+        "8N",
+        "F",
+        "F:LABD",
+        "LABORATORIOS DE COMPUTACION Y SOFTWARE LIBRE"
+      ]
+    },
+    "18:20 - 19:10": {
+      "materia": [
+        "ASEGURAMIENTO DE LA CALIDAD DEL SOFTWARE"
+      ],
+      "materia_data": [
+        "8N",
+        "F",
+        "F:LABC",
+        "LABORATORIOS DE COMPUTACION Y SOFTWARE LIBRE"
+      ]
+    },
+    "19:10 - 20:00": {
+      "materia": [
+        "ASEGURAMIENTO DE LA CALIDAD DEL SOFTWARE"
+      ],
+      "materia_data": [
+        "8N",
+        "F",
+        "F:LABC",
+        "LABORATORIOS DE COMPUTACION Y SOFTWARE LIBRE"
+      ]
+    },
+    "20:00 - 20:50": {
+      "materia": [
+        "PLANEACIÓN ESTRATÉGICA Y HABILIDADES DIRECTIVAS"
+      ],
+      "materia_data": [
+        "8N",
+        "L",
+        "L:209",
+        "AULAS"
+      ]
+    },
+    "20:50 - 21:40": {
+      "materia": "",
+      "materia_data": []
+    }
+  },
+  "Martes": {
+    "15:00 - 15:50": {
+      "materia": [
+        "INGLÉS VII"
+      ],
+      "materia_data": [
+        "8N",
+        "G",
+        "G:202",
+        "AULAS"
+      ]
+    },
+    "15:50 - 16:40": {
+      "materia": [
+        "INGLÉS VII"
+      ],
+      "materia_data": [
+        "8N",
+        "G",
+        "G:202",
+        "AULAS"
+      ]
+    },
+    "16:40 - 17:30": {
+      "materia": [
+        "PROYECTO II"
+      ],
+      "materia_data": [
+        "8N",
+        "B",
+        "D:LS",
+        "LABORATORIO DE SOFTWARE"
+      ]
+    },
+    "17:30 - 18:20": {
+      "materia": [
+        "PROYECTO II"
+      ],
+      "materia_data": [
+        "8N",
+        "B",
+        "D:LS",
+        "LABORATORIO DE SOFTWARE"
+      ]
+    },
+    "18:20 - 19:10": {
+      "materia": [
+        "TECNOLOGÍAS EMERGENTES"
+      ],
+      "materia_data": [
+        "8N",
+        "F",
+        "F:LABE",
+        "LABORATORIOS DE COMPUTACION Y SOFTWARE LIBRE"
+      ]
+    },
+    "19:10 - 20:00": {
+      "materia": [
+        "TECNOLOGÍAS EMERGENTES"
+      ],
+      "materia_data": [
+        "8N",
+        "F",
+        "F:LABE",
+        "LABORATORIOS DE COMPUTACION Y SOFTWARE LIBRE"
+      ]
+    },
+    "20:00 - 20:50": {
+      "materia": [
+        "PLANEACIÓN ESTRATÉGICA Y HABILIDADES DIRECTIVAS"
+      ],
+      "materia_data": [
+        "8N",
+        "G",
+        "G:203",
+        "AULAS"
+      ]
+    },
+    "20:50 - 21:40": {
+      "materia": "",
+      "materia_data": []
+    }
+  },
+  "Miercoles": {
+    "15:00 - 15:50": {
+      "materia": [
+        "ÉTICA PROFESIONAL"
+      ],
+      "materia_data": [
+        "8N",
+        "F",
+        "F:101",
+        "AULAS"
+      ]
+    },
+    "15:50 - 16:40": {
+      "materia": [
+        "PLANEACIÓN ESTRATÉGICA Y HABILIDADES DIRECTIVAS"
+      ],
+      "materia_data": [
+        "8N",
+        "L",
+        "L:103",
+        "AULAS"
+      ]
+    },
+    "16:40 - 17:30": {
+      "materia": [
+        "INGENIERÍA INVERSA"
+      ],
+      "materia_data": [
+        "8N",
+        "F",
+        "F:LABD",
+        "LABORATORIOS DE COMPUTACION Y SOFTWARE LIBRE"
+      ]
+    },
+    "17:30 - 18:20": {
+      "materia": [
+        "INGENIERÍA INVERSA"
+      ],
+      "materia_data": [
+        "8N",
+        "F",
+        "F:LABD",
+        "LABORATORIOS DE COMPUTACION Y SOFTWARE LIBRE"
+      ]
+    },
+    "18:20 - 19:10": {
+      "materia": [
+        "ASEGURAMIENTO DE LA CALIDAD DEL SOFTWARE"
+      ],
+      "materia_data": [
+        "8N",
+        "F",
+        "F:LABC",
+        "LABORATORIOS DE COMPUTACION Y SOFTWARE LIBRE"
+      ]
+    },
+    "19:10 - 20:00": {
+      "materia": [
+        "ASEGURAMIENTO DE LA CALIDAD DEL SOFTWARE"
+      ],
+      "materia_data": [
+        "8N",
+        "F",
+        "F:LABC",
+        "LABORATORIOS DE COMPUTACION Y SOFTWARE LIBRE"
+      ]
+    },
+    "20:00 - 20:50": {
+      "materia": [
+        "INNOVACIÓN Y HABILIDADES EMPRENDEDORAS"
+      ],
+      "materia_data": [
+        "7K",
+        "G",
+        "G:204",
+        "AULAS"
+      ]
+    },
+    "20:50 - 21:40": {
+      "materia": "",
+      "materia_data": []
+    }
+  },
+  "Jueves": {
+    "15:00 - 15:50": {
+      "materia": "",
+      "materia_data": []
+    },
+    "15:50 - 16:40": {
+      "materia": "",
+      "materia_data": []
+    },
+    "16:40 - 17:30": {
+      "materia": "",
+      "materia_data": []
+    },
+    "17:30 - 18:20": {
+      "materia": "",
+      "materia_data": []
+    },
+    "18:20 - 19:10": {
+      "materia": [
+        "INNOVACIÓN Y HABILIDADES EMPRENDEDORAS",
+        "PROYECTO II"
+      ],
+      "materia_data": []
+    },
+    "19:10 - 20:00": {
+      "materia": [
+        "PROYECTO II"
+      ],
+      "materia_data": [
+        "8N",
+        "B",
+        "D:LS",
+        "LABORATORIO DE SOFTWARE"
+      ]
+    },
+    "20:00 - 20:50": {
+      "materia": [
+        "PROYECTO II"
+      ],
+      "materia_data": [
+        "8N",
+        "B",
+        "D:LS",
+        "LABORATORIO DE SOFTWARE"
+      ]
+    },
+    "20:50 - 21:40": {
+      "materia": [
+        "PROYECTO II"
+      ],
+      "materia_data": [
+        "8N",
+        "B",
+        "D:LS",
+        "LABORATORIO DE SOFTWARE"
+      ]
+    }
+  },
+  "Viernes": {
+    "15:00 - 15:50": {
+      "materia": [
+        "PLANEACIÓN ESTRATÉGICA Y HABILIDADES DIRECTIVAS"
+      ],
+      "materia_data": [
+        "8N",
+        "L",
+        "L:207",
+        "AULAS"
+      ]
+    },
+    "15:50 - 16:40": {
+      "materia": "",
+      "materia_data": []
+    },
+    "16:40 - 17:30": {
+      "materia": [
+        "INGLÉS VII"
+      ],
+      "materia_data": [
+        "8N",
+        "B",
+        "B:111",
+        "AULAS"
+      ]
+    },
+    "17:30 - 18:20": {
+      "materia": [
+        "INNOVACIÓN Y HABILIDADES EMPRENDEDORAS",
+        "INGLÉS VII"
+      ],
+      "materia_data": []
+    },
+    "18:20 - 19:10": {
+      "materia": [
+        "TECNOLOGÍAS EMERGENTES"
+      ],
+      "materia_data": [
+        "8N",
+        "F",
+        "F:LABE",
+        "LABORATORIOS DE COMPUTACION Y SOFTWARE LIBRE"
+      ]
+    },
+    "19:10 - 20:00": {
+      "materia": [
+        "TECNOLOGÍAS EMERGENTES"
+      ],
+      "materia_data": [
+        "8N",
+        "F",
+        "F:LABE",
+        "LABORATORIOS DE COMPUTACION Y SOFTWARE LIBRE"
+      ]
+    },
+    "20:00 - 20:50": {
+      "materia": "",
+      "materia_data": []
+    },
+    "20:50 - 21:40": {
+      "materia": "",
+      "materia_data": []
+    }
+  },
+  "Sabado": {
+    "15:00 - 15:50": {
+      "materia": "",
+      "materia_data": []
+    },
+    "15:50 - 16:40": {
+      "materia": "",
+      "materia_data": []
+    },
+    "16:40 - 17:30": {
+      "materia": "",
+      "materia_data": []
+    },
+    "17:30 - 18:20": {
+      "materia": "",
+      "materia_data": []
+    },
+    "18:20 - 19:10": {
+      "materia": "",
+      "materia_data": []
+    },
+    "19:10 - 20:00": {
+      "materia": "",
+      "materia_data": []
+    },
+    "20:00 - 20:50": {
+      "materia": "",
+      "materia_data": []
+    },
+    "20:50 - 21:40": {
+      "materia": "",
+      "materia_data": []
+    }
+  }
+}
