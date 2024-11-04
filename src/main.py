@@ -1,43 +1,49 @@
 import flet as ft
-from flet import app, Page
-
-from View.first import FirstView
+from flet import Page, View, AppBar, ElevatedButton, Text, colors
 from View.schedule import ScheduleView
-from View.qualifications_View import QualificationsView
 from View.teachers_View import TeachersView
-from ViewModel.nav_bar_ViewModel import NavBarViewModel
-from View.nav_bar_View import create_nav_bar, handle_navigation
-from View.nav_top_View import create_nav_top
-from ViewModel.login_ViewModel import LoginViewModel
-from View.login_View import LoginView
+from View.qualifications_View import QualificationsView
 from View.data_student_View import DataStudentView
+from View.first import FirstView
+from View.nav_bar_View import create_nav_bar
+#from View.login_View import LoginView
 
-class Main:
-    def __init__(self):
-        self.page = None
 
-    def run(self, page: Page):
-        self.page = page
-        self.page.spacing = 0
-        self.page.padding = 0
-        self.page.bgcolor = "#F1DEC6"
+def main(page: Page):
+    page.title = "CeApp"
 
-        # Inicializar con la vista de FirstView
-        self.current_view = FirstView(self)
-        self.current_view.build(page)
+    # Manejar cambios de ruta
+    def route_change(route):
+        page.views.clear()
+        #page.appbar = create_nav_bar(page,ft)
+        # Diccionario de rutas
+        routes = {
+            "/": lambda: View("/", [
+                AppBar(title=Text("App Flet"), bgcolor=colors.SURFACE_VARIANT),
+                ElevatedButton("Ir a Teachers", on_click=lambda _: page.go("/teachers"))
+            ]),
+            "/schedule": lambda: ScheduleView(page),
+            "/teachers": lambda: TeachersView(page),
+            "/qualifications": lambda: QualificationsView(page),
+            "/data_student": lambda: DataStudentView(page),
+            "/first": lambda: FirstView(page)
+        }
+        
+        # Obtiene la función de vista de la ruta actual y la llama sin pasar argumentos adicionales
+        view_function = routes.get(page.route, routes["/"])
+        page.views.append(view_function())  # Llama a view_function sin pasar page como argumento
 
-    def on_button_click(self, value):
-        # Destruir la vista actual
-        self.page.controls.clear()
+        # Actualiza la página
+        page.update()
 
-        # Crear la nueva vista según el valor recibido
-        if value == 1:
-            self.current_view = LoginView(self)
+    # Configurar los eventos de navegación
+    def view_pop(view):
+        page.views.pop()
+        top_view = page.views[-1]
+        page.go(top_view.route)
 
-        # Construir la nueva vista
-        self.current_view.build(self.page)
-        self.page.update()
+    page.on_route_change = route_change
+    page.on_view_pop = view_pop
+    page.go(page.route)
 
-# Ejemplo de uso
-if __name__ == "__main__":
-    ft.app(target=Main().run)
+ft.app(target=main)
