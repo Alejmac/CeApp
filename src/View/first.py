@@ -56,7 +56,7 @@ def FirstView(page: Page):
                                     icon_size=30,
                                     icon_color=ft.colors.BLACK,
                                     bgcolor=ft.colors.WHITE,
-                                    #on_click=lambda e: main_instance.on_button_click(1)  # Llamar a la función en Main
+                                    on_click=lambda _: page.go("/login")  
                                 ),
                                 margin=ft.margin.only(top=15),
                                 alignment=alignment.center

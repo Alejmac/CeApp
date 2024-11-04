@@ -143,8 +143,9 @@ def LoginView(page: Page):
         margin=ft.margin.only(top=-120)  # Mover el contenedor hacia arriba
     )
 
-    page.add(image_container)
-    page.add(login_container)
+    #page.add(image_container)
+   # page.add(login_container)
+    return ft.View("/login", [image_container, login_container], bgcolor=ft.colors.ORANGE_50,vertical_alignment = 'start',horizontal_alignment = "center")
 
 if __name__ == "__main__":
     ft.app(target=LoginView)

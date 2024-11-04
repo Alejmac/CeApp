@@ -18,19 +18,20 @@ def main(page: Page):
         #page.appbar = create_nav_bar(page,ft)
         # Diccionario de rutas
         routes = {
-            "/": lambda: View("/", [
-                AppBar(title=Text("App Flet"), bgcolor=colors.SURFACE_VARIANT),
-                ElevatedButton("Ir a Teachers", on_click=lambda _: page.go("/teachers"))
-            ]),
+            #"/": lambda: View("/", [
+           #     AppBar(title=Text("App Flet"), bgcolor=colors.SURFACE_VARIANT),
+          #      ElevatedButton("Ir a Teachers", on_click=lambda _: page.go("/teachers"))
+           # ]),
             "/schedule": lambda: ScheduleView(page),
             "/teachers": lambda: TeachersView(page),
             "/qualifications": lambda: QualificationsView(page),
             "/data_student": lambda: DataStudentView(page),
+            "/login": lambda: LoginView(page),
             "/first": lambda: FirstView(page)
         }
         
         # Obtiene la función de vista de la ruta actual y la llama sin pasar argumentos adicionales
-        view_function = routes.get(page.route, routes["/"])
+        view_function = routes.get(page.route, routes["/first"])
         page.views.append(view_function())  # Llama a view_function sin pasar page como argumento
 
         # Actualiza la página
