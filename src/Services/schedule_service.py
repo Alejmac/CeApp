@@ -93,5 +93,5 @@ def obtener_horario(registro, password):
     return horario_final
 
 # Ejemplo de uso
-horario = obtener_horario('21110191', '123asdzX')
-print(json.dumps(horario, indent=2, ensure_ascii=False))
+##horario = obtener_horario('21110191', '123asdzX')
+#print(json.dumps(horario, indent=2, ensure_ascii=False))

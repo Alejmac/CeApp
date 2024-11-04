@@ -7,17 +7,17 @@ from plyer import storagepath
 from unidecode import unidecode
 
 
-def get_session(registro, password):
-    url_login = 'https://ase1.ceti.mx/tecnologo/seguridad/iniciarsesion'
-    datos_post = {'registro': registro, 'password': password}
-    try:
-        sesion = requests.Session()
-        response_login = sesion.post(url_login, data=datos_post)
-        response_login.raise_for_status()
-    except requests.RequestException as e:
-        print(f"Error al realizar la solicitud de login: {e}")
-        return None
-    return sesion
+#def get_session(registro, password):
+ #   url_login = 'https://ase1.ceti.mx/tecnologo/seguridad/iniciarsesion'
+  #  datos_post = {'registro': registro, 'password': password}
+   # try:
+    #    sesion = requests.Session()
+     #   response_login = sesion.post(url_login, data=datos_post)
+      #  response_login.raise_for_status()
+    #except requests.RequestException as e:
+     #   print(f"Error al realizar la solicitud de login: {e}")
+      #  return None
+    #return sesion
 
 def get_tira_materias(sesion):
     url_home = 'https://ase1.ceti.mx/tecnologo/tgoalumno/tiras'
@@ -298,30 +298,4 @@ def save_file(data, file_name):
         json.dump(data, file, ensure_ascii=False, indent=2)
 
     print(f"Extracción y guardado completados con éxito en {json_file_path}.")
-
-# Ejemplo de uso
-registro = '21110191'
-password = '123asdzX'
-
-#Se invoca el metodo para solo iniciar sesion una vez, en lugar de hacerlo cada vez que convocamos una funcion de extraccion de datos
-sesion = get_session(registro, password)
-
-materias_asignadas = get_tira_materias(sesion)
-#save_file(materias_asignadas, 'class_strip.json')
-print(json.dumps(materias_asignadas, indent=2, ensure_ascii=False))
-
-calificaciones = get_grades(sesion)
-#save_file(calificaciones, 'grades.json')
-print(json.dumps(calificaciones, indent=2, ensure_ascii=False))
-
-#####Tiene problemas con la extraccion de datos, no esta jalando nada por lo menos en mi horario del juevesni el viernes#####
-horario = get_schedule(sesion)
-#save_file(horario, 'schedule.json') 
-print(json.dumps(horario, indent=2, ensure_ascii=False))
-
-student = get_student(sesion)
-#save_file(student, 'student.json')
-print(json.dumps(student, indent=2, ensure_ascii=False))
-
-# Cerrar la sesión
-sesion.close()
+ 

@@ -6,7 +6,7 @@ from View.qualifications_View import QualificationsView
 from View.data_student_View import DataStudentView
 from View.first import FirstView
 from View.nav_bar_View import create_nav_bar
-#from View.login_View import LoginView
+from View.login_View import LoginView
 
 
 def main(page: Page):

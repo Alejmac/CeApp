@@ -4,15 +4,16 @@ import os
 
 from ViewModel.login_ViewModel import LoginViewModel
 # Ventana en la cual el usuario podrá ingresar su registro y contraseña
-from View.teachers_View import TeachersView
+
 
 image_path = os.path.join(os.getcwd(), "Img", "entrada.jpg")
 
-def on_login_click(page, viewmodel, registro_field, password_field):
+def on_login_click(page  , registro_field , password_field ):
+    login_view_model = LoginViewModel(main_instance=page)
     registro = registro_field.value
     password = password_field.value
-
-    if viewmodel.login(registro, password):
+    
+    if login_view_model.login(registro, password):
         alert = AlertDialog(
             title=Text("Login Exitoso"),
             content=Text("Bienvenido al sistema del CETI"),
@@ -20,12 +21,14 @@ def on_login_click(page, viewmodel, registro_field, password_field):
                 ft.TextButton("OK", on_click=lambda e: close_alert(page, alert, success=True))
             ]
         )
-        page.dialog = alert
+        #page.dialog = alert
+        #alert.open = True
+        page.overlay.append(alert)
         alert.open = True
-
-        viewmodel.obtener_horario_servicio(registro, password)
-        viewmodel.obtener_calificaciones_servicio(registro, password)
-        viewmodel.obtener_data_servicio(registro, password)
+        page.update()
+        #LoginViewModel.obtener_horario_servicio(registro, password)
+        #LoginViewModel.obtener_calificaciones_servicio(registro, password)
+       # LoginViewModel.obtener_data_servicio(registro, password)
     else:
         alert = AlertDialog(
             title=Text("Login Fallido"),
@@ -38,12 +41,14 @@ def on_login_click(page, viewmodel, registro_field, password_field):
     alert.open = True
     page.update()
 
+
+
 def close_alert(page, alert, success):
     alert.open = False
     page.update()
     if success:
-        # Llamar al método en Main para mostrar la ventana de TeachersView
-        page.show_teachers_view()
+        #mandamos a llamaar la vista de horario
+        page.go("/schedule")
 
 def LoginView(page: Page):
     page.bgcolor = ft.colors.ORANGE_50
@@ -109,7 +114,7 @@ def LoginView(page: Page):
                     label="Recordar Contraseña",
                     check_color="black",
                     fill_color="white",
-                    label_style=ft.TextStyle(color="black")  # Color del texto
+                    label_style=ft.TextStyle(color="black") 
                 ),
                 padding=ft.padding.only(80)
             ),
@@ -118,7 +123,7 @@ def LoginView(page: Page):
                     text="INICIAR",
                     width=280,
                     bgcolor="#FF8343",
-                    on_click=lambda e: on_login_click(page, viewmodel, registro_field, password_field)
+                    on_click=lambda _: on_login_click(page, registro_field, password_field)
                 ),
                 padding=ft.padding.only(20, 20)
             )
@@ -141,5 +146,5 @@ def LoginView(page: Page):
     page.add(image_container)
     page.add(login_container)
 
-#if __name__ == "__main__":
-  #  ft.app(target=LoginView)
+if __name__ == "__main__":
+    ft.app(target=LoginView)

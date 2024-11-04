@@ -59,20 +59,20 @@ def get_tira_materias(registro, password):
     return materias
 
 # Ejemplo de uso
-registro = '21110191'
-password = '123asdzX'
-materias_asignadas = get_tira_materias(registro, password)
+#registro = '21110191'
+##password = '123asdzX'
+#materias_asignadas = get_tira_materias(registro, password)
 
 # Guardar las materias asignadas en un archivo JSON en la carpeta 'Data'
-if materias_asignadas is not None:
-    data_folder = os.path.join(os.getcwd(), 'Data')
-    os.makedirs(data_folder, exist_ok=True)
-    json_file_path = os.path.join(data_folder, 'materias_asignadas.json')
+#if materias_asignadas is not None:
+  #  data_folder = os.path.join(os.getcwd(), 'Data')
+ #   os.makedirs(data_folder, exist_ok=True)
+  #  json_file_path = os.path.join(data_folder, 'materias_asignadas.json')
+#
+  #  with open(json_file_path, 'w', encoding='utf-8') as json_file:
+  #      json.dump(materias_asignadas, json_file, indent=2, ensure_ascii=False)
 
-    with open(json_file_path, 'w', encoding='utf-8') as json_file:
-        json.dump(materias_asignadas, json_file, indent=2, ensure_ascii=False)
-
-    print(f"Archivo JSON guardado en: {json_file_path}")
+  #  print(f"Archivo JSON guardado en: {json_file_path}")
 
 # Imprimir las materias asignadas en formato JSON
-print(json.dumps(materias_asignadas, indent=2, ensure_ascii=False))
+#print(json.dumps(materias_asignadas, indent=2, ensure_ascii=False))
