@@ -41,10 +41,14 @@ def close_alert(page, alert, success):
     alert.open = False
     page.update()
     if success:
-        page.go("/shcedule")
+        page.go("/schedule")
 
 def LoginView(page: Page):
-    page.bgcolor = ft.colors.ORANGE_50
+
+    page.window.width = 390
+    page.window.height = 844
+
+    #page.bgcolor = ft.colors.ORANGE_50
     page.vertical_alignment = 'start'
     page.horizontal_alignment = "center"
 

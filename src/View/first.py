@@ -6,6 +6,9 @@ import os
 image_path = os.path.join(os.getcwd(), "Img", "entrada.jpg")
 
 def FirstView(page: Page):
+    #page.window.width = 390
+    #page.window.height = 844
+
     page.title = "Explora la Nueva App"
     page.vertical_alignment = "center"
     page.horizontal_alignment = "center"
@@ -70,6 +73,7 @@ def FirstView(page: Page):
                 )
             ]
         ),
+        expand=True,
         width=page.width,
         height=page.height
     )
@@ -79,5 +83,3 @@ def FirstView(page: Page):
         "/first",
         [image_container]
     )
-#if __name__ == "__main__":
-   # ft.app(target=FirstView)
